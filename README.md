@@ -12,3 +12,4 @@
 
 ### Список лекций:
 [Lesson 01 - Basic concepts](./doc/lesson1.md)
+[Lesson 02 - Java memory Model](./doc/lesson1.md)
