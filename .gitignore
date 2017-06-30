@@ -2,3 +2,4 @@ out/
 /bin/
 .classpath
 .project
+target/
