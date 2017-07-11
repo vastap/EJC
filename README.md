@@ -16,3 +16,7 @@
 [Lesson 02 - Java memory Model](./doc/lesson2.md)
 
 [Lesson 03 - Java fields and classes](./doc/lesson3.md)
+
+[Lesson 04 - Java Arrays](./doc/lesson4.md)
+
+[Lesson 05 - Java Object](./doc/lesson5.md)
