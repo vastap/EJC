@@ -75,13 +75,13 @@ public static void main(java.lang.String[]);
 Возвращаем **void**, т.к. **return**
 
 Итого, как мы видим, в стэке указываются методы и локальные переменные.
-####Дополнительные материалы####
+#### Дополнительные материалы
 [Что такое Heap и Stack память в Java?](https://javadevblog.com/chto-takoe-heap-i-stack-pamyat-v-java.html)
 [JavaCode To ByteCode](http://blog.jamesdbloom.com/JavaCodeToByteCode_PartOne.html)
 [Java Bytecode Fundamentals](https://habrahabr.ru/post/111456/)
 
 
-##Сборка мусора##
+## Сборка мусора
 Одной из частей JVM является сборщик мусора или **Garbage Collector**.
 По теме сборщика мусора есть хорошие материалы:
 

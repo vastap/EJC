@@ -42,7 +42,7 @@ System.out.println( number instanceof Number );
 Кроме того следует не забывать, что:
 ```When using the instanceof operator, keep in mind that null is not an instance of anything.```
 
-##toString
+## toString
 Каждый объект в Java можно отобразить в виде строки, т.е. каждый объект имеет своё строковое представление.
 По умолчанию в Object toString определён так:
 ```java
@@ -52,7 +52,7 @@ getClass().getName() + "@" + Integer.toHexString(hashCode());
 Например: ``java.lang.Object@15db9742``
 Данный метод может быть переопределён внутри любого класса.
 
-##hashCode
+## hashCode
 У каждого объекта в Java есть свой hashCode. Это integer значение, являющееся числовым представлением объекта.
 Данный метод определён как **native**, хотя может быть переопределён внутри любого класса. Чтобы получить hashCode именно так, как описано в Object, а не так как переопределено в классе наследнике от Object, необходимо использовать метод: ``System.identityHashCode``.
 
@@ -77,7 +77,7 @@ public boolean equals(Object obj) {
 ```
 Данный метод может быть переопределён в наследниках Object. Например, в String метод определён таким образом, чтобы сравнивать сами строки, а не ссылки на них.
 
-##Clone (protected метод)
+## Clone (protected метод)
 Object содержит **protected native** метод **clone** для **"поверхностного"** копирования объектов.
 Метод помечен protected, чтобы переопределивший его смог расширить область видимости до public и указать интерфейс **Cloneable**. Если вызывать clone без указания интерфейса будет: **java.lang.CloneNotSupportedException**
 Хороший пример опасности приведён здесь: [Передача и возврат объектов](http://iais.kemsu.ru:8080/odocs/java/AppendixA.html).
