@@ -3,7 +3,7 @@ package ru.github.vastap;
 import ru.github.vastap.model.Player;
 
 /**
- * Hello world!
+ * Главный класс утиного казино
  */
 public class App {
 
