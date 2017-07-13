@@ -13,6 +13,7 @@
     <artifactId>task02</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>task02</name>
+    <description>Утиное казино</description>
 
     <build>
         <plugins>

@@ -13,6 +13,7 @@
     <artifactId>task04</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>task04</name>
+    <description>Решение задач по учебнику Златопольского, Строки</description>
 
     <dependencies>
         <dependency>
