@@ -1,13 +1,14 @@
 package ru.github.vastap;
 
 /**
- * Hello world!
- *
+ * Main класс для работы с игрой: Морской бой
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+public class App {
+
+	public static void main(String[] args) {
+		BattleShip game = new BattleShip();
+		game.prepareForGame();
+		game.start();
+
+	}
 }
