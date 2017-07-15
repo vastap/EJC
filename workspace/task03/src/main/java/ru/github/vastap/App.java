@@ -6,9 +6,8 @@ package ru.github.vastap;
 public class App {
 
 	public static void main(String[] args) {
-		BattleShip game = new BattleShip();
+		BattleShipGame game = new BattleShipGame();
 		game.prepareForGame();
 		game.start();
-
 	}
 }

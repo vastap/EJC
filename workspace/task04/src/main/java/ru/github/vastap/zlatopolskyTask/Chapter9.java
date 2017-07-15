@@ -1,4 +1,4 @@
-package ru.github.vastap.Zlatopolsky;
+package ru.github.vastap.zlatopolskyTask;
 
 import java.util.Objects;
 

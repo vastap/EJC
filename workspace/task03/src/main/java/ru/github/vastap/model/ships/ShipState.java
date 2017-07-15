@@ -1,6 +1,6 @@
-package ru.github.vastap.model.Ship;
+package ru.github.vastap.model.ships;
 
-/** Состояние, в котором может находится корабль */
+/** Описывает состояние, в котором находится корабль */
 public enum ShipState {
 	/** Не существует */
 	NONE,

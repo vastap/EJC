@@ -1,4 +1,4 @@
-package ru.github.vastap.Zlatopolsky;
+package ru.github.vastap.zlatopolskyTask;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

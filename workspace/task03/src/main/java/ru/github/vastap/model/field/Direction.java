@@ -1,6 +1,6 @@
-package ru.github.vastap.model;
+package ru.github.vastap.model.field;
 
 /** Направления для вычисления коордюинат и работы с ними */
 public enum Direction {
-	LEFT, RIGHT, UP, DOWN
+	RIGHT, DOWN, LEFT, UP
 }

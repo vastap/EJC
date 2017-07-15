@@ -1,4 +1,4 @@
-package ru.github.vastap.model;
+package ru.github.vastap.model.field;
 
 /**
  * Координата по осям X и Y.
@@ -54,4 +54,5 @@ public class Coordinate {
 				", yCoord=" + yCoord +
 				'}';
 	}
+
 }
