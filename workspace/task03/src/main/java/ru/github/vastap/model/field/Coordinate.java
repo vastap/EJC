@@ -1,57 +1,58 @@
 package ru.github.vastap.model.field;
 
 /**
- * Координата по осям X и Y.
+ * Coordinate with X and Y value.
  */
 public class Coordinate {
-	private int xCoord;
-	private int yCoord;
+	private int coordinateX;
+	private int coordinateY;
 
-	public Coordinate(int xCoord, int yCoord){
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
+	public Coordinate(int coordinateX, int coordinateY){
+		this.coordinateX = coordinateX;
+		this.coordinateY = coordinateY;
 	}
 
 	/**
-	 * Получить значение координаты по оси X
+	 * Get value of coordinate X
 	 * @return
 	 */
 	public int getX() {
-		return this.xCoord;
+		return this.coordinateX;
 	}
 
 	/**
-	 * Получить значение координаты по оси Y
+	 * Get value Получить значение координаты по оси Y
 	 * @return
 	 */
 	public int getY() {
-		return this.yCoord;
+		return this.coordinateY;
 	}
 
 	/**
-	 * Получить следующую координату перемещаясь в заданном направлении
-	 * @param direction Направление получения следующей координаты
-	 * @return Координата
+	 * Get the next coordinate moving in the specified direction.
+	 *
+	 * @param direction Direction for calculating a new coordinate
+	 * @return Object which represents a coordinate.
 	 */
 	public Coordinate getNextCoordinate(Direction direction){
 		switch(direction) {
 			case UP:
-				return new Coordinate(xCoord,yCoord-1);
+				return new Coordinate(coordinateX,coordinateY-1);
 			case DOWN:
-				return new Coordinate(xCoord,yCoord+1);
+				return new Coordinate(coordinateX,coordinateY+1);
 			case LEFT:
-				return new Coordinate(xCoord-1,yCoord);
+				return new Coordinate(coordinateX-1,coordinateY);
 			case RIGHT:
-				return new Coordinate(xCoord+1,yCoord);
+				return new Coordinate(coordinateX+1,coordinateY);
 		}
-		throw new IllegalArgumentException("Передано неверное направление");
+		throw new IllegalArgumentException("Wrong direction.");
 	}
 
 	@Override
 	public String toString() {
 		return "Coordinate{" +
-				"xCoord=" + xCoord +
-				", yCoord=" + yCoord +
+				"x:=" + coordinateX +
+				", y:=" + coordinateY +
 				'}';
 	}
 

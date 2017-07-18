@@ -7,38 +7,39 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Вспомогательные утилитные методы. Например, работа с конфигурационным файлом.
+ * Utils methods for the game.
  */
 public class Utils {
 
 	/**
-	 * Получить настройки из файла конфигурации
-	 * @return Настройки приложения
+	 * Get game properties from configuration file
+	 * @return Game properties set
 	 */
-	public static Properties getProperties(){
+	public static Properties getProperties() {
 		Properties props = new Properties();
-		try(InputStream is = Utils.class.getResourceAsStream("/conf.properties")){
+		try (InputStream is = Utils.class.getResourceAsStream("/conf.properties")) {
 			props.load(is);
 		} catch (IOException e) {
-			throw new IllegalStateException("Ошибка чтения конфигурации из файла настроек");
+			throw new IllegalStateException("Can't read configuration from file");
 		}
 		return props;
 	}
 
 	/**
-	 * Парсер координаты из полученной от пользователя строки
-	 * @param data Введённая пользователем строка
-	 * @return Координата ячейки, которую указал пользователь
+	 * The parser for coordinates from string
+	 *
+	 * @param data String with coordinates. Format: "CoordinateX CoordinateY"
+	 * @return Object representing coordinates
 	 */
-	public static Coordinate inputParser(String data){
+	public static Coordinate inputParser(String data) {
 		String[] str = data.split(" ");
-		if (str.length != 2){
+		if (str.length != 2) {
 			return null;
 		}
-		if (str[0].length()>1 || !Character.isDigit(str[0].charAt(0))){
+		if (str[0].length() > 1 || !Character.isDigit(str[0].charAt(0))) {
 			return null;
 		}
-		if (str[1].length()>1 || !Character.isDigit(str[1].charAt(0))){
+		if (str[1].length() > 1 || !Character.isDigit(str[1].charAt(0))) {
 			return null;
 		}
 		return new Coordinate(Integer.valueOf(str[0]), Integer.valueOf(str[1]));

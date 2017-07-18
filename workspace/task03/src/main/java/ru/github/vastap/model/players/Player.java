@@ -10,108 +10,110 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Игрок, участвующий в игре "Морской Бой"
+ * Abstract player, which play the Battle ship game.
  */
 public abstract class Player {
 	private int id;
 	private boolean isRenderNeeded = false;
-	private ActionResult lastShotStatus;
 	private BattleField enemyField;
 	private ShipPlacementLogic strategy;
 	private List<Ship> ships = new ArrayList<>();
 
 	/**
-	 * Создание игрока с присваиванием идентификатора
-	 * @param id Идентификатор игрока
+	 * Create new player with ID.
+	 *
+	 * @param id The player id
 	 */
-	public Player(int id){
+	public Player(int id) {
 		this.id = id;
 	}
 
 	/**
-	 * Получить идентификатор игрока
-	 * @return ID игрока
+	 * Get the player ID.
+	 *
+	 * @return The Id of the player
 	 */
-	public int getId(){
+	public int getId() {
 		return this.id;
 	}
 
 	/**
-	 * Указать игроку ссылку на поле врага
-	 * @param field Поле врага
+	 * Set the enemy field for the player.
+	 *
+	 * @param field The field of an enemy
 	 */
-	public void linkEnemyField(BattleField field){
+	public void linkEnemyField(BattleField field) {
 		this.enemyField = field;
 	}
 
 	/**
-	 * Получить ссылку на поле врага
-	 * @return Поле врага
+	 * Get the field of an enemy.
+	 * @return
 	 */
-	protected BattleField getEnemyField(){
+	protected BattleField getEnemyField() {
 		return this.enemyField;
 	}
 
-
-	/** Разместить корабли */
-	public void placeShips(BattleField field){
+	/**
+	 * Place ships of the player on the own field.
+	 */
+	public void placeShips(BattleField field) {
 		Iterator<Ship> shipIterator = getShipsIterator();
 		strategy.placeShips(field, shipIterator);
 	}
 
 	/**
-	 * Добавление корабля для игрока
-	 * @param newShip Корабль
+	 * Add a new ship to the player.
+	 *
+	 * @param newShip New ship for adding to the player
 	 */
-	public void addShip(Ship newShip){
+	public void addShip(Ship newShip) {
 		ships.add(newShip);
 	}
 
 	/**
-	 * Получить итератор для получения кораблей из списка кораблей пользователя
-	 * @return Итератор по кораблям пользователя
+	 * Get Iterator for getting a ship from a ship list.
+	 *
+	 * @return Iterator for iterating over all player ships
 	 */
-	protected Iterator<Ship> getShipsIterator(){
-		//Возвращаем обычный iterator, т.к. не хотим давать возможность удаляь
+	protected Iterator<Ship> getShipsIterator() {
+		//Simple iterator prevents ship remove
 		return ships.iterator();
 	}
 
 	/**
-	 * Указать стратегию размещения кораблей
-	 * @param strategy Стратегия, по которой будут расположены корабли
+	 * Set the ship placement strategy for this player
+	 *
+	 * @param strategy Strategy with description of ship placement logic
 	 */
-	public void setStrategy(ShipPlacementLogic strategy){
+	public void setStrategy(ShipPlacementLogic strategy) {
 		this.strategy = strategy;
 	}
 
 	/**
-	 * Получить от игрока выбранную координату удара
-	 * @return выбранная для удара координата
+	 * Request a coordinate for the next strike
+	 *
+	 * @return Coordinate for the next strike
 	 */
 	public abstract Coordinate getCoordinateChoice();
 
 	/**
-	 * Нужно ли для текущего игрока отрисовывать поле
-	 * @return
+	 * Requirement for field rendering for this player.
+	 * For example, computer does not need a field rendering.
+	 *
+	 * @return True if player need a field rendering
 	 */
-	public boolean isRenderNeeded(){
+	public boolean isRenderNeeded() {
 		return this.isRenderNeeded;
 	}
 
 	/**
-	 * Указать, нужно ли отрисовывать поле для текущего игрока
-	 * @param isRenderNeeded
+	 * Set requirement of field rendering
+	 *
+	 * @param isRenderNeeded True if player need a field rendering.
 	 */
-	public void setRenderNeeded(boolean isRenderNeeded){
+	public void setRenderNeeded(boolean isRenderNeeded) {
 		this.isRenderNeeded = isRenderNeeded;
-	}
-
-	/**
-	 * Уведомить игрока о том, какой результат его последнего действия
-	 * @param actionStatus Статус последнего действия
-	 */
-	public void setLastShotStatus(ActionResult actionStatus){
-		this.lastShotStatus = actionStatus;
 	}
 
 }

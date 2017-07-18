@@ -1,7 +1,7 @@
 package ru.github.vastap;
 
 /**
- * Main класс для работы с игрой: Морской бой
+ * The Main class for Sea Battle game.
  */
 public class App {
 
@@ -10,4 +10,5 @@ public class App {
 		game.prepareForGame();
 		game.start();
 	}
+
 }

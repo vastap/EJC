@@ -6,7 +6,7 @@ import ru.github.vastap.model.ships.ShipState;
 import ru.github.vastap.model.field.Coordinate;
 
 /**
- * Клетка, в которой размещена палуба корабля
+ * The cell with a deck of a ship.
  */
 public class ShipCell extends FieldCell {
 	public static final char DESTROYED_SYMBOL = 'X';
@@ -37,26 +37,26 @@ public class ShipCell extends FieldCell {
 	@Override
 	public void processShot() {
 		if (ship.getState() == ShipState.DESTROYED) {
-			System.out.println("Корабль был ранее уничтожен. Точно-точно. Не надо снова стрелять сюда.");
+			System.out.println("The ship was already destroyed. Please, try to find another cell.");
 			return;
 		}
 		if (symbol == DESTROYED_SYMBOL) {
-			System.out.println("Вы уже стреляли сюда. Корабль ещё жив, попробуйте соседние клетки.");
+			System.out.println("This cell was already under fire. Ship is still alive. Try to choose cells near by this cell.");
 			return;
 		}
 
 		ship.hit(this);
 		symbol = DESTROYED_SYMBOL;
 		if (ship.getState() == ShipState.DESTROYED) {
-			System.out.println("Убит!");
+			System.out.println("Destroyed!");
 		} else {
-			System.out.println("Ранен!");
+			System.out.println("Hit!");
 		}
 	}
 
 	/**
-	 * Получить корабль, который расположен в данной клетке
-	 * @return Корабль, палуба которого расположена в данной клетке
+	 * Get a ship from this cell.
+	 * @return Get a ship which is owner of the deck from this cell.
 	 */
 	public Ship getShip() {
 		return this.ship;

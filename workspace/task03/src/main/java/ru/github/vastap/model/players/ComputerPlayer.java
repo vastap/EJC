@@ -7,44 +7,45 @@ import ru.github.vastap.model.field.cell.ShipCell;
 import ru.github.vastap.model.logic.RandomPlacementLogic;
 
 /**
- * Игрок, которым управляет компьютер
+ * Player, which controlled by a computer
  */
-public class ComputerPlayer extends Player{
-	private int xCoord = 0;
-	private int yCoord = 0;
+public class ComputerPlayer extends Player {
+	private int coordinateX = 0;
+	private int coordinateY = 0;
 
-	public ComputerPlayer(int id){
+	public ComputerPlayer(int id) {
 		super(id);
 		setStrategy(new RandomPlacementLogic());
 	}
 
 	@Override
 	public Coordinate getCoordinateChoice() {
-		//Если узнаёт, что попал в прошлый раз - пытается попасть рядом
-		if (getEnemyField().getLastActionResult() == ActionResult.HIT){
+		//Trying to strike near when last strike was succeed
+		if (getEnemyField().getLastActionResult() == ActionResult.HIT) {
 			SearchEnemyAction action = new SearchEnemyAction(getEnemyField());
-			getEnemyField().iterateAround(xCoord,yCoord,action);
+			getEnemyField().iterateAround(coordinateX, coordinateY, action);
 			return action.getCoordinate();
 		}
-		//Данная реализация компьютера - упорная. Обстреливает столбец за столбцом
-		while (true){
-			if (yCoord == getEnemyField().getSize()) {
-				yCoord=0;
-				xCoord++;
+
+		// Computer try select column by column
+		while (true) {
+			if (coordinateY == getEnemyField().getSize()) {
+				coordinateY = 0;
+				coordinateX++;
 			}
-			if (getEnemyField().getCell(xCoord, yCoord) != null && getEnemyField().getCell(xCoord, yCoord).getClass() == EmptyCell.class) {
+			if (getEnemyField().getCell(coordinateX, coordinateY) != null && getEnemyField().getCell(coordinateX, coordinateY).getClass() == EmptyCell.class) {
 				continue;
 			}
-			if (getEnemyField().getCell(xCoord, yCoord) != null && getEnemyField().getCell(xCoord, yCoord).getClass() == ShipCell.class) {
-				if (getEnemyField().getCell(xCoord, yCoord).getRenderSymbol() == ShipCell.DESTROYED_SYMBOL){
+			if (getEnemyField().getCell(coordinateX, coordinateY) != null && getEnemyField().getCell(coordinateX, coordinateY).getClass() == ShipCell.class) {
+				if (getEnemyField().getCell(coordinateX, coordinateY).getRenderSymbol() == ShipCell.DESTROYED_SYMBOL) {
 					continue;
 				}
 			}
 			break;
 		}
-		Coordinate coord = new Coordinate(xCoord, yCoord);
-		yCoord++;
-		return coord;
+		Coordinate coordinate = new Coordinate(coordinateX, coordinateY);
+		coordinateY++;
+		return coordinate;
 	}
 
 }

@@ -3,8 +3,8 @@ package ru.github.vastap.model.field.actions;
 import ru.github.vastap.model.field.BattleField;
 
 /**
- * Описание действия, выполняемого при итерации по полю.
- * <p>Данные действия предназначены для использования при итерированию по полю боя в
+ * Describe action performed with iterating cell.
+ * <p>This action intended for use with battle field iterator
  * {@link ru.github.vastap.model.field.BattleField#iterateAround}
  */
 public abstract class FieldAction {
@@ -14,17 +14,24 @@ public abstract class FieldAction {
 		this.field = field;
 	}
 
-	/** Выполнить действие */
-	public abstract void action(int xCoord, int yCoord);
+	/**
+	 * Make an action
+	 */
+	public abstract void action(int coordinateX, int coordinateY);
 
-	/** Завершено ли действией (это прервёт остальные итерации) */
+	/**
+	 * Check if action was finished.
+	 * @return Return true to prevent next iterations
+	 */
 	public abstract boolean isFinished();
 
 	/**
-	 * Получить поле боя, для которого инициировано данной действие.*
-	 * @return Поле боя, для которого выполняется действие
+	 * Inner method for getting battle field.
+	 *
+	 * @return Battle field for make an action.
 	 */
 	protected BattleField getField() {
 		return this.field;
 	}
+
 }

@@ -1,13 +1,15 @@
 package ru.github.vastap.model.ships;
 
-/** Описывает состояние, в котором находится корабль */
+/**
+ * Describes state of a ship
+ */
 public enum ShipState {
-	/** Не существует */
+	/** Not exists */
 	NONE,
-	/** Корабль создан, но ещё не размещён на поле боя*/
+	/** Ship was created, but not placed on a battle field */
 	CREATED,
-	/** Корабль размещён на поле боя */
+	/** Ship was placed on a battlefield */
 	PLACED,
-	/** Корабль уничтожен */
-	DESTROYED;
+	/** Ship was destroyed */
+	DESTROYED
 }

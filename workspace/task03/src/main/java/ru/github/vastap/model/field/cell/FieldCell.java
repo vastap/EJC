@@ -3,32 +3,33 @@ package ru.github.vastap.model.field.cell;
 import ru.github.vastap.model.field.Coordinate;
 
 /**
- * Представляет клетку на поле боя.
- * <p>Клетка содержит координату, в которой она расположена на поле боя.
- * Отвечает за то, каким образом клетка должна быть отрисована и за обработку попадания по клетке.
+ * Cell on a battle field.
+ * <p>Each cell has coordinate on a battle field.
+ * Response for result of a strike in a cell.
  */
 public abstract class FieldCell {
 	private Coordinate coordinate;
 
 	/**
-	 * Создание заполненной ячейки на поле боя
+	 * Create filled cell on a battle field
 	 *
-	 * @param coordinate Координата, по которой будет создана ячейка
+	 * @param coordinate Coordinate of the battle field cell
 	 */
 	public FieldCell(Coordinate coordinate) {
 		this.coordinate = coordinate;
 	}
 
 	/**
-	 * Получить способ, которым нужно отрисовать клетку
+	 * Get cell render symbol.
 	 *
-	 * @param hide Нужно ли прятать корабль и отрисовать его пустотой
-	 * @return Символ для отображения на поле боя
+	 * @param hide A requirement to hide a cell and render empty cell
+	 * @return Symbol to render
 	 */
 	public abstract char getRenderSymbol(boolean hide);
 
 	/**
-	 * Получить способ, которым нужно отрисовать клетку
+	 * Get cell render symbol
+	 *
 	 * @return Символ, отображающий данную клетку
 	 */
 	public char getRenderSymbol() {
@@ -36,12 +37,14 @@ public abstract class FieldCell {
 	}
 
 	/**
-	 * Обработкать выстрел по клетке
-	 * Возвращает статус корабля
+	 * Process the strike in a battle field cell.
 	 */
 	public abstract void processShot();
 
-	/** Получить координату ячейки */
+	/**
+	 * Get coordinates of the cell
+	 * @return
+	 */
 	public Coordinate getCoordinate() {
 		return coordinate;
 	}

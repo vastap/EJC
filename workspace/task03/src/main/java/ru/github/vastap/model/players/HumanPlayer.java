@@ -7,10 +7,10 @@ import ru.github.vastap.model.logic.RandomPlacementLogic;
 import java.util.Scanner;
 
 /**
- * Игрок, которым управляет человек
+ * Player which controlled by human
  */
 public class HumanPlayer extends Player {
-	private Scanner in = new Scanner(System.in);
+	private Scanner userInput = new Scanner(System.in);
 
 	public HumanPlayer(int id) {
 		super(id);
@@ -20,19 +20,19 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public Coordinate getCoordinateChoice() {
-		String input;
+		String inputLine;
 		Coordinate coordinate;
-		System.out.println("Введите координаты X и Y через пробел. Для выхода введите q");
+		System.out.println("Choose coordinate of X and Y with space delimiter. Enter q for exit");
 
 		while(true){
-			input = in.nextLine();
-			coordinate = Utils.inputParser(input);
-			if (input.equals("q")){
-				System.out.println("Игра будет завершена. Жаль с вами расставаться.");
-				System.exit(0);
+			inputLine = userInput.nextLine();
+			coordinate = Utils.inputParser(inputLine);
+			if (inputLine.equals("q")){
+				System.out.println("The game will be finished. Sorry to part with you.");
+				break;
 			}
 			if (coordinate == null){
-				System.out.println("Введены неправильные координаты, попробуйте снова");
+				System.out.println("Coordinate string has wrong format. Please try again.");
 				continue;
 			}
 			break;

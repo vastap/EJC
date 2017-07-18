@@ -11,9 +11,9 @@ import ru.github.vastap.model.field.cell.FieldCell;
 import ru.github.vastap.model.field.cell.ShipCell;
 
 /**
- * Представляет из себя поле боя.
- * <p>Имеет определённый размер X на Y.
- * Каждая координата [X;Y] является клеткой.
+ * Battle Field with ships.
+ * <p>Battle field has size.
+ * Each coordinate of this field is a cell.
  */
 public class BattleField {
 	private FieldCell[][] field;
@@ -21,58 +21,57 @@ public class BattleField {
 	private int shipCells = 0;
 
 	/**
-	 * Создать поле боя в виде квадрата
+	 * Create a new square field with specified size
 	 *
-	 * @param size Размер поля size * size
+	 * @param size The battle field size (size x size)
 	 */
 	public BattleField(int size) {
-		//Т.к. массив из объектов, то это не приводит к инициализации примитивов и избегается оверхед
+		//The Field Cell arrays has null references in a cell and not initialized objects|primitives.
 		field = new FieldCell[size][size];
 	}
 
 	/**
-	 * Получить размер поля боя
-	 * <p>Поле боя - квадрат, поэтому соответствует любой стороне.
+	 * Get the battle field size.
 	 *
-	 * @return Размер стороны поля боя.
+	 * @return The size of each battle field side
 	 */
 	public int getSize() {
 		return field.length;
 	}
 
 	/**
-	 * Свободна ли клетка по указанным координатам.
-	 * <p>Клетка свободна, если к ней не примыкает ни одна занятая клетка + она сама не занята
+	 * Check this cell for emptiness.
+	 * <p>A cell is free if all cells near by this cell is free + if this cell is free
 	 *
-	 * @param xCoord Координата по оси X
-	 * @param yCoord Координата по оси Y
-	 * @return True, если клетка свободна для размещения корабля
+	 * @param coordinateX coordinate on X axis
+	 * @param coordinateY coordinate on Y axis
+	 * @return True, if cell is free for ship placement
 	 */
-	public boolean isFree(int xCoord, int yCoord) {
-		if (xCoord < 0 || yCoord < 0 || xCoord > field.length - 1 || yCoord > field.length - 1 || field[xCoord][yCoord] != null) {
+	public boolean isFree(int coordinateX, int coordinateY) {
+		if (coordinateX < 0 || coordinateY < 0 || coordinateX > field.length - 1 || coordinateY > field.length - 1 || field[coordinateX][coordinateY] != null) {
 			return false;
 		}
 
 		CheckEmptinessAction check = new CheckEmptinessAction(this);
-		iterateAround(xCoord, yCoord, check);
+		iterateAround(coordinateX, coordinateY, check);
 		return check.isEmpty();
 	}
 
 	/**
-	 * Проверить, что указанная координата свободна на поле боя
+	 * Check this cell for emptiness.
 	 *
-	 * @param coordinate Координата на поле боя
-	 * @return True, если клетка свободна для размещения корабля
+	 * @param coordinate Coordinate of a cell
+	 * @return True, if cell is free for ship placement
 	 */
 	public boolean isFree(Coordinate coordinate) {
 		return isFree(coordinate.getX(), coordinate.getY());
 	}
 
 	/**
-	 * Разместить корабль на поле боя
+	 * Place ship on battle field.
 	 *
-	 * @param ship Добавляемый корабль
-	 * @param coordinates Координаты размещения корабля
+	 * @param ship        The ship which should be added
+	 * @param coordinates Coordinates of the ship
 	 */
 	public void addShip(Ship ship, Coordinate[] coordinates) {
 		for (Coordinate coord : coordinates) {
@@ -84,8 +83,10 @@ public class BattleField {
 	}
 
 	/**
-	 * Получение отображения
-	 * @param ownMode Режим владельца данного поля. Если true - корабли не спрятаны
+	 * Get text representation of field (field View)
+	 *
+	 * @param ownMode True to represent field for field owner.
+	 *                If this flag is true - all ships will be hide
 	 */
 	public String[] getView(boolean ownMode) {
 		String[] lines = new String[field[0].length + 1];
@@ -116,9 +117,9 @@ public class BattleField {
 	}
 
 	/**
-	 * Обработать выстрел по полю боя
+	 * Process a strike in a field cell by coordinate
 	 *
-	 * @param coordinate Координата ячейки, в которую был произведён выстрел
+	 * @param coordinate Coordinate of a cell
 	 */
 	public void processShot(Coordinate coordinate) {
 		if (field[coordinate.getX()][coordinate.getY()] == null) {
@@ -130,16 +131,15 @@ public class BattleField {
 		char before = field[coordinate.getX()][coordinate.getY()].getRenderSymbol();
 		field[coordinate.getX()][coordinate.getY()].processShot();
 		if (before != field[coordinate.getX()][coordinate.getY()].getRenderSymbol()) {
-			//Если это клетка с кораблём - проверим, не уничтожен ли он
 			if (field[coordinate.getX()][coordinate.getY()].getClass() == ShipCell.class) {
 				Ship ship = ((ShipCell) field[coordinate.getX()][coordinate.getY()]).getShip();
 				shipCells--;
 
 				if (ship.getState() == ShipState.DESTROYED) {
 					lastActionResult = ActionResult.DESTROY;
-					Coordinate[] coords = ship.getCoordinates();
-					for (Coordinate coord : coords) {
-						iterateAround(coord.getX(), coord.getY(), new FillEmptyCellsAction(this));
+					Coordinate[] coordinates = ship.getCoordinates();
+					for (Coordinate deckCoordinate : coordinates) {
+						iterateAround(deckCoordinate.getX(), deckCoordinate.getY(), new FillEmptyCellsAction(this));
 					}
 				} else {
 					lastActionResult = ActionResult.HIT;
@@ -149,46 +149,44 @@ public class BattleField {
 	}
 
 	/**
-	 * Получить ячейку поля по её координатам
+	 * Get field cell by cell coordinates
 	 *
-	 * @param xCoord Координата по оси X
-	 * @param yCoord Координата по оси Y
-	 * @return Ячейка поля боя или null, если она ещё не инициализирована (пустая и по ней не стреляли)
+	 * @param coordinateX coordinate on X axis
+	 * @param coordinateY coordinate on Y axis
+	 * @return Field cell or null, if cell was not initialized (there is no strike in this cell)
 	 */
-	public FieldCell getCell(int xCoord, int yCoord) {
-		return field[xCoord][yCoord];
+	public FieldCell getCell(int coordinateX, int coordinateY) {
+		return field[coordinateX][coordinateY];
 	}
 
 	/**
-	 * Указать значение для ячейки на поле боя
+	 * Set cell for specified coordinates
 	 *
-	 * @param xCoord Координата по оси X
-	 * @param yCoord Координата по оси Y
-	 * @param cellValue Значение, которым будет инициирована клетка
+	 * @param coordinateX coordinate on X axis
+	 * @param coordinateY coordinate on Y axis
+	 * @param cellValue   cell for specified coordinates
 	 */
-	public void setCell(int xCoord, int yCoord, FieldCell cellValue) {
-		field[xCoord][yCoord] = cellValue;
+	public void setCell(int coordinateX, int coordinateY, FieldCell cellValue) {
+		field[coordinateX][coordinateY] = cellValue;
 	}
 
-
 	/**
-	 * Обойти все клетки вокруг указанной клетки
+	 * Iterate around specified cell
 	 *
-	 * @param xCoord Координата исходной клетки по оси x
-	 * @param yCoord Координата исходной клетки по оси y
-	 * @param action Выполняемое при итерации действие
+	 * @param coordinateX coordinate on X axis
+	 * @param coordinateY coordinate on Y axis
+	 * @param action      Action for each iteration
 	 */
-	public void iterateAround(int xCoord, int yCoord, FieldAction action) {
-		if (xCoord < 0 || yCoord < 0 || xCoord > field.length - 1 || yCoord > field.length - 1) {
-			//Не итерируемся, если указанная координата вне поля
+	public void iterateAround(int coordinateX, int coordinateY, FieldAction action) {
+		if (coordinateX < 0 || coordinateY < 0 || coordinateX > field.length - 1 || coordinateY > field.length - 1) {
 			return;
 		}
 
 		for (int x = -1; x < 2; x++) {
-			if (xCoord + x < 0 || xCoord + x > getSize() - 1) continue;
+			if (coordinateX + x < 0 || coordinateX + x > getSize() - 1) continue;
 			for (int y = -1; y < 2; y++) {
-				if (yCoord + y < 0 || yCoord + y > getSize() - 1) continue;
-				action.action(xCoord + x, yCoord + y);
+				if (coordinateY + y < 0 || coordinateY + y > getSize() - 1) continue;
+				action.action(coordinateX + x, coordinateY + y);
 				if (action.isFinished()) {
 					return;
 				}
@@ -197,18 +195,18 @@ public class BattleField {
 	}
 
 	/**
-	 * Получить статус последнего действия
+	 * Get a status of last action.
 	 *
-	 * @return Статус последнего действия, выполненного на данном поле
+	 * @return
 	 */
 	public ActionResult getLastActionResult() {
 		return lastActionResult;
 	}
 
 	/**
-	 * Получить количество клеток, которые осталось уничтожить
+	 * Get count of cells, which should be destroyed before player win
 	 *
-	 * @return Количество оставшихся палуб (т.е. кол-во клеток, которые нужно уничтожить)
+	 * @return Count of remaining ships decs
 	 */
 	public int getShipCellsCount() {
 		return this.shipCells;

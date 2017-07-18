@@ -1,7 +1,7 @@
 package ru.github.vastap.model.field.cell;
 
 /**
- * Пустая клетка, по которой был выполнен удар
+ * Empty cell after strike with no result
  */
 public class EmptyCell extends FieldCell{
 
@@ -16,7 +16,7 @@ public class EmptyCell extends FieldCell{
 
 	@Override
 	public void processShot() {
-		System.out.println("Промах");
+		System.out.println("Miss");
 	}
 
 }

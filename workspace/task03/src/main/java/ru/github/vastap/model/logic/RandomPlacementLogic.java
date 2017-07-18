@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * Расставление кораблей в случайном месте поля
+ * The logic of ship placement.
  */
 public class RandomPlacementLogic implements ShipPlacementLogic {
 
@@ -24,7 +24,7 @@ public class RandomPlacementLogic implements ShipPlacementLogic {
 			Direction direction = Direction.values()[rnd.nextInt(4)];
 			while (ship.getState() != ShipState.PLACED) {
 				Coordinate[] coordinates = new Coordinate[ship.getSize()];
-				coordinates[0] = new Coordinate(rnd.nextInt(field.getSize()-1), rnd.nextInt(field.getSize()-1));
+				coordinates[0] = new Coordinate(rnd.nextInt(field.getSize() - 1), rnd.nextInt(field.getSize() - 1));
 				if (!field.isFree(coordinates[0])) {
 					continue;
 				}

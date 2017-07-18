@@ -4,9 +4,9 @@ import ru.github.vastap.model.field.cell.FieldCell;
 import ru.github.vastap.model.field.Coordinate;
 
 /**
- * Корабль - сущность, размещаемая на поле боя.
- * <p>Имеет свои координаты, свой статус, размер (количество палуб).
- * <p>При уничтожении всех палуб корабль считается уничтоженным
+ * The Ship - entity of entity, which is located on a battle field.
+ * <p>Ship has own coordinates, status and size (number of decs).
+ * <p>Ship has status "DESTROYED" when all decs are destroyed.
  */
 public class Ship {
 	private ShipState state;
@@ -21,41 +21,41 @@ public class Ship {
 	}
 
 	/**
-	 * Указать координаты корабля
-	 * @param coordinates Координаты корабля
+	 * Set coordinates of the ship.
+	 * @param coordinates
 	 */
-	public void setCoordinates(Coordinate[] coordinates){
-		if ( this.coordinates != null) return;
+	public void setCoordinates(Coordinate[] coordinates) {
+		if (this.coordinates != null) return;
 
-		if (coordinates.length != health){
-			throw new IllegalArgumentException("Длинна корабля не совпадает с количеством переданных координат");
+		if (coordinates.length != health) {
+			throw new IllegalArgumentException("Number of coordinates not equals number of the decks");
 		}
 		this.coordinates = coordinates;
 	}
 
 	/**
-	 * Получить занимаемые кораблём координаты
-	 * @return Координаты корабля
+	 * Get coordinates of the ship.
+	 * @return Ship coordinates
 	 */
 	public Coordinate[] getCoordinates() {
 		return coordinates;
 	}
 
 	/**
-	 * Получить размер корабля
-	 * @return размер корабля (кол-во палуб)
+	 * Get the size of the ship
+	 * @return The Number of decs
 	 */
 	public int getSize() {
 		return size;
 	}
 
 	/**
-	 * Указать статус корабля.
-	 * <p>Статусы имеют свою последовательность.
-	 * Менять можно только на следующий в цепочке статус.
-	 * Например, нельзя поменять с PLACED обратно на CREATED
+	 * Set the status for the ship.
+	 * <p>Statuses have their own order.
+	 * Status can be changed only from lower to highest.
+	 * For example, you can't change status from PLACED to CREATED
 	 *
-	 * @param state Статус корабля
+	 * @param state The status of the ship
 	 */
 	public void setState(ShipState state) {
 		if (this.state.ordinal() < state.ordinal()) {
@@ -64,21 +64,22 @@ public class Ship {
 	}
 
 	/**
-	 * Получить статус корабля
-	 * @return Статус корабля
+	 * Get a status of the ship
+	 * @return
 	 */
 	public ShipState getState() {
 		return this.state;
 	}
 
-
-	/** Обработка удара по кораблю */
-	public void hit(FieldCell cell){
-		for (Coordinate coord : coordinates){
-			if (coord.getY() == cell.getCoordinate().getY() && coord.getX() == cell.getCoordinate().getX()){
+	/**
+	 * Handling of a strike on a ship
+	 */
+	public void hit(FieldCell cell) {
+		for (Coordinate coord : coordinates) {
+			if (coord.getY() == cell.getCoordinate().getY() && coord.getX() == cell.getCoordinate().getX()) {
 				health--;
-				if (health==0){
-					setState( ShipState.DESTROYED );
+				if (health == 0) {
+					setState(ShipState.DESTROYED);
 				}
 				break;
 			}

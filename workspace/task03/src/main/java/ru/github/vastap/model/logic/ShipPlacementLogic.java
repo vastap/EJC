@@ -6,15 +6,16 @@ import ru.github.vastap.model.ships.Ship;
 import java.util.Iterator;
 
 /**
- * Описание логики размещения кораблей на поле
+ * The logic of ship placement.
  */
 public interface ShipPlacementLogic {
 
 	/**
-	 * Разместить корабли на поле боя.
-	 * <p>Т.к. для логики может потребоваться знать о всех кораблях, то в логике используется итератор по кораблям, а не корабль
-	 * @param field Поле боя
-	 * @param shipIterator Итератор по кораблям
+	 * Place ships on the battle field
+	 * <p>Logic use ship iterator for safe getting player ships
+	 *
+	 * @param field        The own field
+	 * @param shipIterator The player ships iterator
 	 */
 	public void placeShips(BattleField field, Iterator<Ship> shipIterator);
 

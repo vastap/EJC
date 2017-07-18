@@ -4,7 +4,7 @@ import ru.github.vastap.model.field.BattleField;
 import ru.github.vastap.model.field.cell.EmptyCell;
 
 /**
- * Заполнить при итерации ячейки пустыми ячейками (не содержащим кораблей)
+ * Action for filling empty cells near by iterating cell (for example, when ship was destroyed).
  */
 public class FillEmptyCellsAction extends FieldAction {
 
@@ -13,9 +13,9 @@ public class FillEmptyCellsAction extends FieldAction {
 	}
 
 	@Override
-	public void action(int xCoord, int yCoord) {
-		if (getField().getCell(xCoord, yCoord) == null) {
-			getField().setCell(xCoord, yCoord, new EmptyCell());
+	public void action(int coordinateX, int coordinateY) {
+		if (getField().getCell(coordinateX, coordinateY) == null) {
+			getField().setCell(coordinateX, coordinateY, new EmptyCell());
 		}
 	}
 

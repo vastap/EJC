@@ -9,7 +9,8 @@ import ru.github.vastap.model.players.ActionResult;
 import ru.github.vastap.model.ships.Ship;
 
 /**
- * Основной класс игры "Морской бой"
+ * The Battle Ship game.
+ * <p>Players are place their ships on battle field and trying to destroy all ships of their enemies.
  */
 public class BattleShipGame {
 	private static final int NUMBER_OF_PLAYERS = 2;
@@ -17,7 +18,7 @@ public class BattleShipGame {
 	private BattleField[] battleFields = new BattleField[NUMBER_OF_PLAYERS];
 
 	/**
-	 * Генератор ID игроков
+	 * The player ID generator
 	 */
 	private static class PlayerIdSequence {
 		private static int id = 0;
@@ -29,24 +30,24 @@ public class BattleShipGame {
 	}
 
 	/**
-	 * Подготовить данные к началу игры
+	 * Prepare players data for game (ships, fields, etc).
 	 */
 	public void prepareForGame() {
 		addPlayer(new ComputerPlayer(PlayerIdSequence.getId()));
 		addPlayer(new HumanPlayer(PlayerIdSequence.getId()));
 
-		//Делегируем размещение кораблей игрокам
+		//Delegate placing ships to players
 		for (int i = 0; i < players.length; i++) {
 			if (players[i] == null) {
 				break;
 			}
 			players[i].placeShips(battleFields[i]);
-			System.out.println("Корабли размещены для игрока " + players[i].getId());
+			System.out.println("Ships are placed for player " + players[i].getId());
 		}
 	}
 
 	/**
-	 * Добавить игрока в игру
+	 * Add new player to the game
 	 */
 	private void addPlayer(Player player) {
 		int index = player.getId() - 1;
@@ -58,7 +59,7 @@ public class BattleShipGame {
 	}
 
 	/**
-	 * Выдать игроку корабли. Игрок должен знать, какие у него есть корабли
+	 * Add new ship to the player. Player should know about his ship.
 	 */
 	private void addShipsToPlayer(Player player) {
 		for (int size = 4; size > 0; size--) {
@@ -68,12 +69,11 @@ public class BattleShipGame {
 		}
 	}
 
-
 	/**
-	 * Начать игру
+	 * Start new game
 	 */
 	public void start() {
-		Coordinate coord;
+		Coordinate coordinate;
 		boolean shouldSkipNext = false;
 
 		gameLoop:
@@ -83,33 +83,35 @@ public class BattleShipGame {
 					shouldSkipNext = false;
 					continue;
 				}
-				//Отрисовка поля
+
 				if (player.isRenderNeeded()) {
-					Renderer.render(battleFields[getEnemyId(player) - 1], battleFields[(player).getId()-1]);
-
-					//battleFields[getEnemyId(players) - 1].getView();
+					Renderer.render(battleFields[getEnemyId(player) - 1], battleFields[(player).getId() - 1]);
 				}
-				coord = player.getCoordinateChoice();
-				System.out.flush();
-				System.out.printf("Игрок %d выбрал координаты %d:%d \n", player.getId(), coord.getX(), coord.getY());
 
-				battleFields[getEnemyId(player) - 1].processShot(coord);
-				if (battleFields[getEnemyId(player) - 1].getLastActionResult() == ActionResult.HIT || battleFields[getEnemyId(player) - 1].getLastActionResult() == ActionResult.DESTROY){
+				coordinate = player.getCoordinateChoice();
+				if (coordinate == null) {
+					System.out.printf("Player %d left the game \n", player.getId());
+					break gameLoop;
+				} else {
+					System.out.printf("Player %d chose coordinate %d:%d \n", player.getId(), coordinate.getX(), coordinate.getY());
+				}
+
+				battleFields[getEnemyId(player) - 1].processShot(coordinate);
+				if (battleFields[getEnemyId(player) - 1].getLastActionResult() == ActionResult.HIT || battleFields[getEnemyId(player) - 1].getLastActionResult() == ActionResult.DESTROY) {
 					shouldSkipNext = true;
 				}
-
 				if (battleFields[getEnemyId(player) - 1].getShipCellsCount() == 0) {
-					System.out.println("Победил игра " + player.getId());
+					System.out.println("Winner: Player " + player.getId());
 					break gameLoop;
 				}
 			}
 		}
-		System.out.println("Игра завершена");
+		System.out.println("The battle is over");
 	}
 
 	/**
-	 * Получить ID врага для указанного игрока
-	 * <p>Враг выбирается как ID следующего игока, выбирается по кругу.
+	 * Get an enemy ID for the player.
+	 * <p>Choose an enemy ID in a circle.
 	 */
 	private int getEnemyId(Player player) {
 		int id = player.getId() + 1;

@@ -4,7 +4,7 @@ import ru.github.vastap.model.field.BattleField;
 import ru.github.vastap.model.field.Coordinate;
 
 /**
- * Действие для поиска вражеского корабля при помощи итерации вокруг клетки
+ * Action for searching enemy ship near by iterating cell.
  */
 public class SearchEnemyAction extends FieldAction {
 	private boolean found = false;
@@ -15,9 +15,9 @@ public class SearchEnemyAction extends FieldAction {
 	}
 
 	@Override
-	public void action(int xCoord, int yCoord) {
-		if (getField().getCell(xCoord, yCoord) == null) {
-			coordinate = new Coordinate(xCoord, yCoord);
+	public void action(int coordinateX, int coordinateY) {
+		if (getField().getCell(coordinateX, coordinateY) == null) {
+			coordinate = new Coordinate(coordinateX, coordinateY);
 			found = true;
 		}
 	}
@@ -28,8 +28,9 @@ public class SearchEnemyAction extends FieldAction {
 	}
 
 	/**
-	 * Получить найденную координату
-	 * @return Координата с предполагаемым расположением вражеского корабля
+	 * Get enemy ship cell if found.
+	 *
+	 * @return Coordinate with intended placement of an enemy ship
 	 */
 	public Coordinate getCoordinate() {
 		return coordinate;
