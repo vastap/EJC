@@ -20,3 +20,5 @@
 [Lesson 04 - Java Arrays](./doc/lesson4.md)
 
 [Lesson 05 - Java Object](./doc/lesson5.md)
+
+[Lesson 07 - String](./doc/lesson7.md)
