@@ -1,13 +1,14 @@
 # Lesson 07: String
 ## Вступление
 В Java одним из самых часто используемых типов данных является строки. Строки в языке Java представлены классом **[java.lang.String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)**.
+
 ![](../img/string.png)
 
 Прежде всего, String это **[java.lang.CharSequence](https://docs.oracle.com/javase/8/docs/api/java/lang/CharSequence.html)**, т.е. последовательность char'ов. И действительно, если мы откроем класс String, то увидим, что данные хранятся в ``private final char value[];``
 Это даёт нам самое важное свойство: **String не изменяются**.
 
 ## CharSequence
-Так как это последовательность чаров, то мы можем у **String** узнать эту длинну при помощи метода **length()**. 
+Так как это последовательность чаров, то мы можем у **String** узнать эту длинну при помощи метода **length()**.
 Можем узнать, какой char находится на указанной нами позиции при помощи метода **charAt(index)**.
 Так же получить часть последовательности при помощи метода **subsequence(int begin, int end)**, где begin включает в себя указанный индекс, а end - нет. Так же мы можем получить из char'ов строку методом **toString**.
 

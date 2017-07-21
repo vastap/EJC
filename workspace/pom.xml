@@ -21,7 +21,19 @@
         <module>task04</module>
         <module>task01</module>
         <module>task03</module>
+        <module>algorithms</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
