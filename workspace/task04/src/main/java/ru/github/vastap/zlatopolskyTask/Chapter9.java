@@ -111,7 +111,7 @@ public class Chapter9 {
 					break;
 				}
 			}
-			if (isUnique) {
+			if (isUnique && Character.isLetter(symbol)) {
 				uniqueChars[count] = symbol;
 				count++;
 			}

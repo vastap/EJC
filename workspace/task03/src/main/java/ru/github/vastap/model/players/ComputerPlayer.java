@@ -48,4 +48,9 @@ public class ComputerPlayer extends Player {
 		return coordinate;
 	}
 
+	@Override
+	public void finishTheGame() {
+		//Computer has not resources. Do nothing
+	}
+
 }

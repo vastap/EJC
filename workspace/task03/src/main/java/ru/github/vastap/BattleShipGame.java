@@ -106,6 +106,11 @@ public class BattleShipGame {
 				}
 			}
 		}
+
+		for (Player player : players) {
+			player.finishTheGame();
+		}
+
 		System.out.println("The battle is over");
 	}
 

@@ -116,4 +116,9 @@ public abstract class Player {
 		this.isRenderNeeded = isRenderNeeded;
 	}
 
+	/**
+	 * Finish this game (close resources, etc)
+	 */
+	public abstract void finishTheGame();
+
 }

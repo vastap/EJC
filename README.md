@@ -21,4 +21,8 @@
 
 [Lesson 05 - Java Object](./doc/lesson5.md)
 
-[Lesson 07 - String](./doc/lesson7.md)
+[Lesson 06 - Collections intro, iterators](./doc/lesson6.md)
+
+[Lesson 07 - List, Set, Map](./doc/lesson7.md)
+
+[Lesson 08 - String](./doc/lesson8.md)

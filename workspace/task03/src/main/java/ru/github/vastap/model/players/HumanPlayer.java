@@ -40,4 +40,10 @@ public class HumanPlayer extends Player {
 		return coordinate;
 	}
 
+	@Override
+	public void finishTheGame() {
+		this.userInput.close();
+	}
+
+
 }
