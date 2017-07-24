@@ -1,6 +1,7 @@
 package ru.github.vastap;
 
 import ru.github.vastap.tasks.RabbitTask;
+
 import java.util.Scanner;
 
 /**
