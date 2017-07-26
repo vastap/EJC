@@ -26,3 +26,5 @@
 [Lesson 07 - List, Set, Map](./doc/lesson7.md)
 
 [Lesson 08 - String](./doc/lesson8.md)
+
+[Lesson 09 - Exceptions](./doc/lesson9.md)
