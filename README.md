@@ -28,3 +28,8 @@
 [Lesson 08 - String](./doc/lesson8.md)
 
 [Lesson 09 - Exceptions](./doc/lesson9.md)
+
+[Lesson 10 - Java IO](./doc/lesson10.md)
+
+[Lesson 11 - Threads](./doc/lesson11.md)
+
