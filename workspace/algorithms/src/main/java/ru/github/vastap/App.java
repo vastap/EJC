@@ -1,33 +1,48 @@
 package ru.github.vastap;
 
+import java.util.Arrays;
+
 /**
  * Algorithms implementations
  */
 public class App {
 
 	/**
+	 * XOR Swap
+	 *
+	 * @param array Array to be processed
+	 * @param from  First element for swap
+	 * @param to    Second element to swap
+	 */
+	private static void xorSwap(int[] array, int from, int to) {
+		System.out.println("swap " + array[from] + " and " + array[to]);
+		array[from] = array[from] ^ array[to];
+		array[to] = array[from] ^ array[to];
+		array[from] = array[from] ^ array[to];
+	}
+
+	/**
 	 * Bubble sort
 	 *
 	 * @param source Source Array to sort
-	 * @return Sorted Array
 	 */
-	public static int[] bubbleSort(int[] source) {
-		int tmp = 0;
-		boolean sorted;
+	public static void bubbleSort(int[] source) {
+		System.out.println("Bubble Sort: " + Arrays.toString(source));
+		boolean isSorted;
 		do {
-			sorted = true;
+			isSorted = true;
 			for (int i = 0; i < source.length - 1; i++) {
 				if (source[i] > source[i + 1]) {
-					tmp = source[i];
+					int tmp = source[i];
 					source[i] = source[i + 1];
 					source[i + 1] = tmp;
-					sorted = false;
+					isSorted = false;
 					break;
 				}
 			}
-		} while (!sorted);
-		return source;
+		} while (!isSorted);
 	}
+
 
 	/**
 	 * Bubble sort with XOR swap
@@ -35,65 +50,93 @@ public class App {
 	 * @param source Source Array to sort
 	 * @return Sorted Array
 	 */
-	public static int[] bubbleSortWithXORSwap(int[] source) {
-		boolean sorted;
+	public static void bubbleSortWithXORSwap(int[] source) {
+		System.out.println("Bubble Sort with XOR: " + Arrays.toString(source));
+		boolean isSorted;
 		do {
-			sorted = true;
+			isSorted = true;
 			for (int i = 0; i < source.length - 1; i++) {
 				if (source[i] > source[i + 1]) {
-					sorted = false;
-					//XOR Swap
-					source[i] = source[i] ^ source[i + 1];
-					source[i + 1] = source[i] ^ source[i + 1];
-					source[i] = source[i] ^ source[i + 1];
+					isSorted = false;
+					xorSwap(source, i, i + 1);
 					break;
 				}
 			}
-		} while (!sorted);
-		return source;
+		} while (!isSorted);
 	}
 
 	/**
-	 * Insertion Sort of array
+	 * Selection sort implementation
 	 *
-	 * @param source Source array
-	 * @return sorted array
+	 * @param source Source Array for sorting
 	 */
-	public static int[] insertionSort(int[] source) {
-		int number = 0;
-		for (int i = 1; i < source.length; i++) {
-			for (int z = i - 1; z >= 0; z--) {
-				if (source[i] < source[z]) {
-					if (z != 0 && (source[i] < source[z - 1])) continue;
-					number = source[i];
-					System.arraycopy(source, z, source, z + 1, i - z);
-					source[z] = number;
+	public static void selectionSort(int[] source) {
+		System.out.println("Selection Sort: " + Arrays.toString(source));
+		for (int i = 0; i < source.length; i++) {
+			int minIndex = i;
+			for (int min = i + 1; min < source.length; min++) {
+				if (source[min] < source[minIndex]) {
+					minIndex = min;
 				}
 			}
+			if (i != minIndex) {
+				xorSwap(source, i, minIndex);
+			}
 		}
-		return source;
 	}
 
 	/**
-	 * Insertion Sort of array.
-	 * <p>This is short variant from https://edunow.su/site/content/algorithms/sortirovka_massiva</p>
+	 * Insertion Sort implementation1
 	 *
-	 * @param source Source array
-	 * @return sorted array
+	 * @param source Source Array
 	 */
-	public static int[] insertionSortShort(int[] source) {
-		int value;
-		int head;
-		int tail;
-
-		for (head = 1; head < source.length; head++) {
-			value = source[head];
-			for (tail = head - 1; tail >= 0 && source[tail] > value; tail--) {
-				source[tail + 1] = source[tail];
+	public static void insertionSort(int[] source) {
+		System.out.println("Insertion Sort: " + Arrays.toString(source));
+		// Take out value by value, make a "hole" on this place
+		for (int holePosition = 0; holePosition < source.length; holePosition++) {
+			int takenValue = source[holePosition];
+			//Move cursor while we have an element before hole and this element bigger than taken value
+			int cursor;
+			for (cursor = holePosition - 1; cursor >= 0 && takenValue < source[cursor]; cursor--) {
+				source[cursor + 1] = source[cursor];
 			}
-			source[tail + 1] = value;
+			source[cursor + 1] = takenValue;
 		}
-		return source;
+	}
+
+	/**
+	 * Shuttle Sort implementation
+	 *
+	 * @param source Source Array for sorting
+	 */
+	public static void shuttleSort(int[] source) {
+		System.out.println("Shuttle Sort: " + Arrays.toString(source));
+		if (source.length <= 1) {
+			return;
+		}
+		// Iterate over all
+		for (int i = 1; i < source.length; i++) {
+			for (int cursor = i - 1; cursor >= 0 && (source[cursor] > source[cursor + 1]); cursor--) {
+				xorSwap(source, cursor, cursor + 1);
+			}
+		}
+	}
+
+	public static void shellSort(int[] source) {
+		System.out.println("Shell Sort: " + Arrays.toString(source));
+		// Calculate the gap
+		int gap = source.length / 2;
+
+		while (gap >= 1) {
+			for (int i = 0; i < source.length; i++) {
+				// Move cursor not from gap value and iterate backward
+				for (int cursor = i - gap; cursor >= 0 && (source[cursor] > source[cursor + gap]); cursor -= gap) {
+					xorSwap(source, cursor, cursor + gap);
+				}
+			}
+			// Decrease the gap value
+			gap = gap / 2;
+		}
 	}
 
 	public static int[] quickSort(int[] source, int first, int last) {
@@ -137,4 +180,68 @@ public class App {
 		return source;
 	}
 
+	/**
+	 * Implementation of Merge Sort
+	 *
+	 * @param source Source Array to sort
+	 * @param left   Start from this element
+	 * @param right  Finish at this element
+	 * @return Sorted Array
+	 */
+	public static int[] mergeSort(int[] source, int left, int right) {
+		if (left == right) return source;
+
+		System.out.print("> ");
+		for (int i = left; i <= right; i++) {
+			System.out.print(source[i]);
+			System.out.print("|");
+		}
+		System.out.println();
+
+		//Calculate delimiter - the beginning of a new part
+		int delimiter = left + ((right - left) / 2 + (right - left) % 2);
+		if (delimiter != right) {
+			mergeSort(source, left, delimiter - 1);
+			mergeSort(source, delimiter, right);
+		}
+
+		System.out.println("Delim: " + delimiter);
+		while (left < right) {
+			if (delimiter == source.length) {
+				break;
+			}
+			System.out.println(source[left] + "~" + source[delimiter]);
+			if (source[left] > source[delimiter]) {
+				int tmp = source[left];
+				xorSwap(source, left, delimiter);
+				left++;
+			} else {
+				left++;
+			}
+		}
+
+//
+// for (int i = 0; i < (delimiter - left); i++) {
+//			if (delimiter == source.length) {
+//				break;
+//			}
+//			//Swap elements
+//			if (source[left] > source[delimiter]) {
+//				xorSwap(source, left, delimiter);
+//
+//				left++;
+//			} else {
+//				delimiter++;
+//			}
+//		}
+//
+		System.out.println("After merge");
+		for (int i = 0; i < source.length; i++) {
+			System.out.print(source[i]);
+			System.out.print("|");
+		}
+		System.out.println();
+
+		return source;
+	}
 }

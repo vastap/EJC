@@ -22,7 +22,8 @@
         <module>task03</module>
         <module>algorithms</module>
 		<module>threads</module>
-	</modules>
+        <module>experiments</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
