@@ -122,6 +122,11 @@ public class App {
 		}
 	}
 
+	/**
+	 * Shell sort implementation
+	 *
+	 * @param source
+	 */
 	public static void shellSort(int[] source) {
 		System.out.println("Shell Sort: " + Arrays.toString(source));
 		// Calculate the gap
@@ -139,12 +144,18 @@ public class App {
 		}
 	}
 
-	public static int[] quickSort(int[] source, int first, int last) {
-		int leftMarker = first;
-		int rightMarker = last;
-		int pivot = source[(first + last) / 2];
-		int tmp;
-		// While left marker less than right marker (or equals)
+	/**
+	 * Implementation of quick sort
+	 *
+	 * @param source      Source Array for sorting
+	 * @param leftBorder  left border of sorting part of array
+	 * @param rightBorder right border of sorting part of array
+	 */
+	public static void quickSort(int[] source, int leftBorder, int rightBorder) {
+		System.out.println("Quick Sort: " + Arrays.toString(source));
+		int leftMarker = leftBorder;
+		int rightMarker = rightBorder;
+		int pivot = source[(leftMarker + rightMarker) / 2];
 		do {
 			// Move left marker to the right until element less than pivot element
 			while (source[leftMarker] < pivot) {
@@ -154,30 +165,27 @@ public class App {
 			while (source[rightMarker] > pivot) {
 				rightMarker--;
 			}
-			// When left marker is stand before right marker (or in the same position)
+			// If <= then we done all swaps and reach last step
 			if (leftMarker <= rightMarker) {
-				// If left marker stand before right marker - swap elements
+				// Left marker will be less than right only if we have to swap elements
 				if (leftMarker < rightMarker) {
-					tmp = source[leftMarker];
+					int tmp = source[leftMarker];
 					source[leftMarker] = source[rightMarker];
 					source[rightMarker] = tmp;
 				}
-				// Move markers on one position
+				// Move markers on one position to form new bounds
 				leftMarker++;
 				rightMarker--;
 			}
 		} while (leftMarker <= rightMarker);
 		// If left marker less than end border
-		if (leftMarker < last) {
-			// Sort again. Part, that begins from leftMarker to the end border
-			quickSort(source, leftMarker, last);
+		if (leftMarker < rightBorder) {
+			quickSort(source, leftMarker, rightBorder);
 		}
 		// If right marker bigger than start border
-		if (first < rightMarker) {
-			// Sort again. Part, that begins from start border to the right marker
-			quickSort(source, first, rightMarker);
+		if (leftBorder < rightMarker) {
+			quickSort(source, leftBorder, rightMarker);
 		}
-		return source;
 	}
 
 	/**
@@ -188,60 +196,27 @@ public class App {
 	 * @param right  Finish at this element
 	 * @return Sorted Array
 	 */
-	public static int[] mergeSort(int[] source, int left, int right) {
-		if (left == right) return source;
-
-		System.out.print("> ");
-		for (int i = left; i <= right; i++) {
-			System.out.print(source[i]);
-			System.out.print("|");
-		}
-		System.out.println();
-
-		//Calculate delimiter - the beginning of a new part
-		int delimiter = left + ((right - left) / 2 + (right - left) % 2);
-		if (delimiter != right) {
+	public static void mergeSort(int[] source, int left, int right) {
+		int delimiter = left + ((right - left) / 2) + 1;
+		// Recursive merge for parts bigger than 2 elements
+		if (delimiter > 0 && right > left + 1) {
 			mergeSort(source, left, delimiter - 1);
 			mergeSort(source, delimiter, right);
 		}
 
-		System.out.println("Delim: " + delimiter);
-		while (left < right) {
-			if (delimiter == source.length) {
-				break;
-			}
-			System.out.println(source[left] + "~" + source[delimiter]);
-			if (source[left] > source[delimiter]) {
-				int tmp = source[left];
-				xorSwap(source, left, delimiter);
-				left++;
+		// Compare and merge
+		int[] buffer = new int[right - left + 1];
+		int cursor = left;
+		for (int i = 0; i < buffer.length; i++) {
+			if (delimiter > right || source[cursor] < source[delimiter]) {
+				buffer[i] = source[cursor];
+				cursor++;
 			} else {
-				left++;
+				buffer[i] = source[delimiter];
+				delimiter++;
 			}
 		}
-
-//
-// for (int i = 0; i < (delimiter - left); i++) {
-//			if (delimiter == source.length) {
-//				break;
-//			}
-//			//Swap elements
-//			if (source[left] > source[delimiter]) {
-//				xorSwap(source, left, delimiter);
-//
-//				left++;
-//			} else {
-//				delimiter++;
-//			}
-//		}
-//
-		System.out.println("After merge");
-		for (int i = 0; i < source.length; i++) {
-			System.out.print(source[i]);
-			System.out.print("|");
-		}
-		System.out.println();
-
-		return source;
+		System.arraycopy(buffer, 0, source, left, buffer.length);
 	}
+
 }
