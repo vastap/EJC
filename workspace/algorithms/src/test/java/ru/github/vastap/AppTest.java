@@ -84,4 +84,18 @@ public class AppTest {
 		App.mergeSort(array, 0, array.length - 1);
 		assertEquals("[1, 3, 3]", Arrays.toString(array));
 	}
+
+	@Test
+	public void shouldDoCountingSort() {
+		int[] array = new int[]{8, 4, 2, 4, 3, 2, 2, 3};
+		assertEquals("[2, 2, 2, 3, 3, 4, 4, 8]", Arrays.toString(App.countingSort(array)));
+	}
+
+	@Test
+	public void shouldDoRadixSort() {
+		int[] array = new int[]{10, 12, 2, 1, 33, 5};
+		Radix.radixsort(array);
+		assertEquals("[1, 2, 5, 10, 12, 33]", Arrays.toString(array));
+	}
+	
 }

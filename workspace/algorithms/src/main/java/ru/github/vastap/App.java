@@ -219,4 +219,32 @@ public class App {
 		System.arraycopy(buffer, 0, source, left, buffer.length);
 	}
 
+	/**
+	 * Implementation of counting sort
+	 *
+	 * @param theArray
+	 * @return
+	 */
+	public static int[] countingSort(int theArray[]) {
+		// for each value in the source array increment count in indexes array
+		int indexes[] = new int[9 + 1];
+		for (int i = 0; i < theArray.length; i++) {
+			indexes[theArray[i]]++;
+		}
+		// populate the final sorted array
+		int[] sortedArray = new int[theArray.length];
+		int currentSortedIndex = 0;
+		// for each index in indexes
+		for (int index = 0; index < indexes.length; index++) {
+			// for the number of times the item occurs
+			int count = indexes[index];
+			for (int i = 0; i < count; i++) {
+				sortedArray[currentSortedIndex] = index;
+				currentSortedIndex++;
+			}
+		}
+		return sortedArray;
+	}
+
+
 }

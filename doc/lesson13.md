@@ -133,7 +133,36 @@ public static void mergeSort(int[] source, int left, int right) {
 Если элемент, на который указывает курсор меньше, чем элемент, на который указывает делитель - помещаем в буферный массив этот элемент и сдвигаем курсор. В противном случае помещаем в буферный массив элемент, на который указывает разделитель и сдвигаем разделитель. Как только разделитель уйдёт за границы сортируемого участка или мы заполним весь массив - указанный диапазон считается отсортированным.
 
 ## Сортировка подсчётом (Counting Sort)
+Данная сортировка является основой для Radix Sort.
+**Видео:** [Counting Sort](https://www.youtube.com/watch?v=_q0OOXo4l7E)
+**Материал:** "[geeksforgeeks.org : counting sort](http://www.geeksforgeeks.org/counting-sort/)"
+Статья "[Counting Sort Algorithm](https://www.interviewcake.com/concept/java/counting-sort)"
+**Реализациия:**
+```java
+public static int[] countingSort(int theArray[]) {
+	// for each value in the source array increment count in indexes array
+	int indexes[] = new int[9 + 1];
+	for (int i = 0; i < theArray.length; i++) {
+		indexes[theArray[i]]++;
+    }
+	// populate the final sorted array
+	int[] sortedArray = new int[theArray.length];
+	int currentSortedIndex = 0;
+	// for each index in indexes
+	for (int index = 0; index < indexes.length; index++) {
+		// for the number of times the item occurs
+		int count = indexes[index];
+		for (int i = 0; i < count; i++) {
+			sortedArray[currentSortedIndex] = index;
+			currentSortedIndex++;
+		}
+	}
+	return sortedArray;
+}
+```
 
 ## Поразрядная сортировка (Radix Sort)
 
 Материал: "[Поразрядная сортировка :: Radix sort](http://sorting.valemak.com/radix/)"
+Geeks for geeks: "[Radix Sort](http://www.geeksforgeeks.org/radix-sort/)"
+
