@@ -97,5 +97,14 @@ public class AppTest {
 		Radix.radixsort(array);
 		assertEquals("[1, 2, 5, 10, 12, 33]", Arrays.toString(array));
 	}
-	
+
+	@Test
+	public void shouldDoBinarySearch() {
+		int[] array = new int[]{5, 19, 22, 2, 10, 0};
+		Radix.radixsort(array);
+		assertEquals("[0, 2, 5, 10, 19, 22]", Arrays.toString(array));
+		assertEquals(3, App.getIndexWithBinarySearch(array, 10));
+		assertEquals(-1, App.getIndexWithBinarySearch(array, 3));
+	}
+
 }

@@ -246,5 +246,30 @@ public class App {
 		return sortedArray;
 	}
 
+	/**
+	 * Binary search implementation
+	 * <p>Like java.util.Arrays.binarySearch and Collections.binarySearch
+	 *
+	 * @param array Sorted array
+	 * @return index of element
+	 */
+	public static int getIndexWithBinarySearch(int[] array, int value) {
+		int left = 0;
+		int right = array.length;
+
+		while (right >= left) {
+			int middle = (left + right) / 2;
+			if (array[middle] == value) {
+				return middle;
+			}
+			if (array[middle] < value) {
+				left = middle + 1;
+			}
+			if (array[middle] > value) {
+				right = middle - 1;
+			}
+		}
+		return -1;
+	}
 
 }

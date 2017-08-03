@@ -36,3 +36,5 @@
 [Lesson 12 - Algorithms: Simple sort](./doc/lesson12.md)
 
 [Lesson 13 - Algorithms: Quick and Radix Sort](./doc/lesson13.md)
+
+[Lesson 14 - Time Complexity](./doc/lesson14.md)
