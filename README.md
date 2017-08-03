@@ -11,6 +11,8 @@
 Описание синтаксиса указано на [help.github](https://help.github.com/articles/basic-writing-and-formatting-syntax/) и немного примеров на [guides.github](https://guides.github.com/features/mastering-markdown/).
 
 ### Список лекций:
+[Lesson 00: prologue](./doc/lesson0.md)
+
 [Lesson 01 - Basic concepts](./doc/lesson1.md)
 
 [Lesson 02 - Java memory Model](./doc/lesson2.md)
