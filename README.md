@@ -11,21 +11,21 @@
 Описание синтаксиса указано на [help.github](https://help.github.com/articles/basic-writing-and-formatting-syntax/) и немного примеров на [guides.github](https://guides.github.com/features/mastering-markdown/).
 
 ### Список лекций:
-[Lesson 00: prologue](./doc/lesson0.md)
+[Lesson 00 - Prologue](./doc/lesson0.md)
 
 [Lesson 01 - Basic concepts](./doc/lesson1.md)
 
 [Lesson 02 - Java memory Model](./doc/lesson2.md)
 
-[Lesson 03 - Java fields and classes](./doc/lesson3.md)
+[Lesson 03 - Java types](./doc/lesson3.md)
 
 [Lesson 04 - Java Arrays](./doc/lesson4.md)
 
-[Lesson 05 - Java Object](./doc/lesson5.md)
+[Lesson 05 - Java Objects and classes](./doc/lesson5.md)
 
 [Lesson 06 - Collections intro, iterators](./doc/lesson6.md)
 
-[Lesson 07 - List, Set, Map](./doc/lesson7.md)
+[Lesson 07 - Hashtable, HashMap, HashSet](./doc/lesson7.md)
 
 [Lesson 08 - String](./doc/lesson8.md)
 
@@ -40,3 +40,5 @@
 [Lesson 13 - Algorithms: Quick and Radix Sort](./doc/lesson13.md)
 
 [Lesson 14 - Time Complexity](./doc/lesson14.md)
+
+Lesson 15 - Scopes, Inner classes, override
