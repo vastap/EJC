@@ -1,13 +1,11 @@
 package ru.github.vastap;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.assertEquals;
@@ -108,4 +106,43 @@ public class AppTest {
 		throw new IllegalStateException("Can't read field elementData for this ArrayList object");
 	}
 
+	@Test
+	public void shouldRemoveSuccessfullyTheSecondLastListElementWithIterator() {
+		List<String> list = new ArrayList<>();
+		Collections.addAll(list, "Murzik", "Barsik", "Pushok", "Boris");
+		// Cursor - is a pointer to the next element
+		// hasNext - return true if iterator cursor not equals to collection size
+		// remove - delete element, decrement size, set cursor on last return position
+		Iterator<String> it = list.iterator();
+		System.err.println("cursor point on: " + 1);
+		for (int i = 1; i <= 4; i++) {
+			if (it.hasNext()) {
+				String obj = it.next();
+				System.err.println("cursor point on: " + (int) (i + 1));
+				//remove element
+				if (i == list.size() - 1) {
+					System.err.println("delete element " + i);
+					list.remove(obj);
+					System.err.println("size = " + list.size()); //Size is decremeneted
+					System.err.println("cursor point on: " + i);//Cursor is decremented
+				}
+			}
+		}
+	}
+
+	@Test(expected = ConcurrentModificationException.class)
+	public void shouldThrowExceptionOnTheSecondFromTheEndElementRemove() {
+		List<String> list = new ArrayList<>();
+		Collections.addAll(list, "Murzik", "Barsik", "Pushok", "Boris");
+		Iterator<String> it = list.iterator();
+		for (int i = 1; i <= 4; i++) {
+			if (it.hasNext()) {
+				String obj = it.next();
+				if (i == list.size() - 2) {
+					list.remove(obj);
+				}
+			}
+		}
+	}
+	
 }

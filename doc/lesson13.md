@@ -165,4 +165,4 @@ public static int[] countingSort(int theArray[]) {
 
 Материал: "[Поразрядная сортировка :: Radix sort](http://sorting.valemak.com/radix/)"
 Geeks for geeks: "[Radix Sort](http://www.geeksforgeeks.org/radix-sort/)"
-
+![](../img/RadixAlgo.png)
