@@ -1,25 +1,71 @@
 # Lesson 05: Objects and classes
 ## Вступление
-В мире Java разработка строится внутри парадигмы ООП, в основе которой лежит одна простая мысль: ```Всё есть объект```. С некоторыми оговорками, вроде: "кроме примитивных типов".
-В Java объект представляет класс **java.lang.Object**. От него неявным образом наследуются абсолютно все классы, используемые в Java программах.
+В мире Java разработка строится внутри парадигмы [ООП](./lesson0.md), в основе которой лежит одна простая мысль: ```Всё есть объект```. С некоторыми оговорками, вроде: "кроме примитивных типов".
+
+В **языке** Java **объект** представляет класс **java.lang.Object**.
+От него неявным образом наследуются абсолютно все классы, используемые в Java программах. А это означает, что данные методы есть у всех объектов.
 
 Object в Java имеет следующие методы:
 - getClass
 - toString
 - equals
 - hashCode
+- clone (protected)
+а также:
 - notify
 - notifyAll
 - wait
-- clone (protected)
 
 ## getClass
-Каждый объект, который встречается в коде имеет свой класс. Описание класса в Java представляет собой класс **java.lang.Class**.
-Данный класс предоставляет следующие возможности:
-- Узнать название класса
-см. stackoverflow: "[What is the difference between canonical name, simple name and class name in Java Class?
-](https://stackoverflow.com/questions/15202997/what-is-the-difference-between-canonical-name-simple-name-and-class-name-in-jav)".
-- Узнать, является ли класс наследником
+Объекты - являются экземплярами классов. Поэтому, не удивительно, что через объект можно получить данные класса, экземпляром которого является данный объект.
+Метод **getClass()** возвращает объект класса **java.lang.Class**, который представляет собой набор метаданных класса объекта, для которого данный метод вызван. Например:
+```java
+String text = "test";
+java.lang.Class clazz = text.getClass();
+// java.lang.String
+System.out.println("text class is: " + clazz.getCanonicalName() );
+// java.lang.CharSequence
+System.out.println("with: " + clazz.getInterfaces()[2].getCanonicalName());
+// true
+try {
+	Field field = clazz.getDeclaredField("value");
+    System.out.println("Contains array: " + field.getType().isArray());
+} catch (NoSuchFieldException e) {
+	System.out.println("Can't find field 'value'");
+}
+```
+
+Непосредственно у класса так же можно получить **java.lang.Class**, например:
+```java
+String text = "test";
+java.lang.Class clazz = text.getClass();
+System.out.println("Is string: " + (clazz == String.class));
+```
+
+Важно помнить, что getClass возвращает **runtime** класс:
+```java
+CharSequence text = new String("text");
+// Print: java.lang.String
+System.out.println(text.getClass().getTypeName());
+```
+
+И позволяет даже при помощи reflection инстанциировать объекты:
+```java
+try {
+	Class myString = Class.forName("java.lang.String");
+	Object test = myString.getDeclaredConstructors()[12].newInstance("text");
+	System.out.println( test.getClass().getTypeName() );
+	System.out.println( myString.getTypeName() );
+} catch (Exception e) {
+	e.printStackTrace();
+}
+```
+Интересное обсуждение в вопросе: [what is the Class object?](https://stackoverflow.com/questions/4453349/what-is-the-class-object-java-lang-class)
+
+Также позволяет узнавать название класса:
+см. stackoverflow: "[What is the difference between canonical name, simple name and class name in Java Class?](https://stackoverflow.com/questions/15202997/what-is-the-difference-between-canonical-name-simple-name-and-class-name-in-jav)".
+
+Позволяет проверять, является ли класс наследником:
 ```java
 Integer number = 2;
 System.out.println( Number.class.isAssignableFrom(number.getClass()) ); //true
@@ -84,12 +130,22 @@ Object содержит **protected native** метод **clone** для **"по
 Как видно в примере, ArrayList копирует значения массива при помощи Arrays.copyOf, что влечёт копирование ссылок, а не самих объектов. Поэтому, когда кто-то получит клон - изменения объектов в клоне повлечёт изменение этих объектов в оригинале, т.к. по сути это один и тот же объект. Поэтому более надёжным способом считается сериализация.
 
 ## wait, notify, notifyAll
-Можно прочитать здесь: [Методы wait и notify](https://metanit.com/java/tutorial/8.5.php)
-А так же ответ на интересный вопрос: "[Why wait(), notify() and notifyAll() methods are in Object class and not in Thread class](http://netjs.blogspot.ru/2015/07/why-wait-notify-and-notifyall-methods-in-object-class-java-multi-threading.html)".
+Данные методы относятся к многопоточному выполнению.
+Казалось бы, почему данные методы объявлены не в **Thread**, **а в Object**.
+Начало ответа могут подсказать в "[Why notify, wait, notifyAll methods are defined in Object class in java?](https://www.quora.com/Why-notify-wait-notifyAll-methods-are-defined-in-Object-class-in-java)" и "[Why wait(), notify() and notifyAll() methods are in Object class and not in Thread class](http://netjs.blogspot.ru/2015/07/why-wait-notify-and-notifyall-methods-in-object-class-java-multi-threading.html)".
+Данные методы работают на уровне монитора.
+Монитор же ассоциируется с объектом Java, адрес монитора содержится в заголовке объекта.
 
+Про сами методы можно прочитать здесь: [Методы wait и notify](https://metanit.com/java/tutorial/8.5.php)
 
-# Классы
-Объекты - являются экземплярами классов.
+## Заголовок объекта
+Каждый объект имеет свой заголовок.
+Каждый заголовок для большинства JVM(Hotspot, openJVM) состоит из двух машинных слов. Для 32-х разрядной системы — 8 байт, для 64-х разрядной системы — 16 байт.
+Обзор на эту тему: [Размер Java объектов](https://m.habrahabr.ru/post/134102/).
+Так же на ту же тему слайд: [Mark Word: слайд 6](https://www.slideshare.net/JeanPhilippeBEMPEL/out-ofmemoryerror-what-is-the-cost-of-java-objects).
+Интересно, что заголовок объекта содержит информацию о мониторе:
+"[Difference between lock and monitor – Java Concurrency](http://howtodoinjava.com/core-java/multi-threading/multithreading-difference-between-lock-and-monitor/)".
+Так же хорошо описано в статье "[How the Java virtual machine performs thread synchronization](http://www.javaworld.com/article/2078602/java-concurrency/jw-archives--how-the-java-virtual-machine-performs-thread-synchronization.html)".
 
 ## Загрузка классов
 Про загрузку классов можно прочитать в статье "[загрузка классов, Class Loader](http://java-se-learning.blogspot.ru/2013/07/class-loader.html)" и статью на хабре "[Загрузка классов в Java. Теория](https://habrahabr.ru/post/103830/)".
@@ -97,5 +153,30 @@ Object содержит **protected native** метод **clone** для **"по
 Данный механизм не обеспечивает решение конфликтов в случае дублированных **default** методов в интерфейсах (default методы в интерфейсах добавлены в **Java8**).
 Подробнее про интерфейсы и default методы можно прочитать в статье "[Методы по умолчанию в Java 8: что могут и чего не могут?](https://goo.gl/P9SrAX)".
 
-Про инициализацию содержимого класса можно прочитать на stackoverflow:
+Про **инициализацию содержимого** класса можно прочитать на stackoverflow:
 [Что раньше инициализируется поля класса или конструктор?](https://ru.stackoverflow.com/questions/464028/Что-раньше-инициализируется-поля-класса-или-конструктор)
+
+## Java Pool
+Так же интересен тот факт, что в зависимости от типа, объект может быть помещён в пул констант. В java, для оптимизации потребления памяти, существует два пула: String pool и Integer pool.
+В String pool помещаются строки, объявленные при помощи литералов или при помощи метода intern():
+```java
+String pooledLitStr = "text";
+String pooledInternedStr = new String("text").intern();
+System.out.println(pooledLitStr == pooledInternedStr);
+// Вернётся true
+```
+По похожему принципу работает пул Integer, только для значений от -128 до 127:
+```java
+Integer first = 1;
+Integer second = new Integer(1);
+System.out.println(first == second);
+// Вернётся false
+```
+Верхнюю границу можно поменять для Integer Pool при помощи параметра:
+**-XX:AutoBoxCacheMax**
+
+## Финализация
+У **java.lang.Object** есть ещё один метод - ```protected void finalize()```
+Данный метод может быть вызван, когда объект готов для сборки сборщиком мусора.
+Однако вызывается он не напрямую, а ставится в очередь, которая выполняется в отдельном потоке.
+Это очень неприятное место. Подробнее: "[finalize и Finalizer](https://habrahabr.ru/post/144544/)".
