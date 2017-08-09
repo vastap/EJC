@@ -5,6 +5,30 @@
 Но есть ещё одна интересная особенность. JVM не всегда транслирует байткод в машинные инструкции и исполнять их, т.к. это долго. Когда участок кода часто исполняется, то он компилируется JIT-компилятором, чтобы в следующий раз не выполнять трансляцию, а выполнять скомпилированный в машинный код.
 Подробнее можно послушать в докладах "[JVM: краткий курс общей анатомии](https://www.youtube.com/watch?v=JbLClSMRK_I)" и "[ServerSide: Внутренняя кухня JIT-компилятора](https://www.youtube.com/watch?v=HreePIBctXY)"
 
+## JRE и JDK
+Java может поставляться как JRE, так и JDK.
+- JRE - Java Runtime Environment.
+Из названия понятно, что это среда выполнения. Содержит набор стандартных библиотек, виртуальную машину Java (Java Virtual Machine, JVM).
+http://www.oracle.com/technetwork/java/javase/jre-8-readme-2095710.html
+- JDK - Java Developer Kit
+Набор разработчика Java. Соответственно, сюда входят исходный код (src.zip), документация, компилятор (javac), декомпилятор (javap), различные вспомогательные утилиты (например, архиватор jar). И сама JRE.
+Более подробно про состав: "[Contents of the JDK](http://www.oracle.com/technetwork/java/javase/jdk-8-readme-2095712.html)".
+
+## JLS
+JLS - Java Language Specification
+Описывает то, каким образом внутри всё работает. Различные технические нюансы и хитрости. Подробнее: [Java8 JLS](http://docs.oracle.com/javase/specs/jls/se8/html/index.html)
+
+## Распространение программ
+Распространение написанного Java приложения зависит от его типа.
+JavaSE приложениt: "[Распространение настольных приложений Java](https://netbeans.org/kb/docs/java/javase-deploy_ru.html)".
+Java WebStart: [Java WebStart](https://www.java.com/ru/download/faq/java_webstart.xml)
+JavaFX приложение: [Native pack](http://docs.oracle.com/javafx/2/deployment/self-contained-packaging.htm).
+JavaEE приложения: [Types of J2EE Archive Files](https://docs.oracle.com/cd/E19830-01/819-4712/ablgz/index.html)
+
+## Entry Point
+У каждой Java программы есть точка входа - [Entry Point](https://docs.oracle.com/javase/tutorial/deployment/jar/appman.html).
+Более подробно см. комментарий к вопросу "[Why is the Java main method static?](https://stackoverflow.com/a/151666)"
+
 ## Создание простейшей Java программы
 Простейшая Java программа должна удовлетворять следующим требованиям:
 - Состоять из файла с расширением **.java**

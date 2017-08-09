@@ -1,6 +1,5 @@
 package ru.github.vastap;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
@@ -144,5 +143,28 @@ public class AppTest {
 			}
 		}
 	}
-	
+
+	@Test
+	public void shouldCatchStackOverflowError() {
+		// Endless
+		class Endless {
+			public void cycle() {
+				new Endless().cycle();
+			}
+		}
+		try {
+			new Endless().cycle();
+		} catch (java.lang.StackOverflowError e) {
+			System.err.println("Overflow!");
+		}
+	}
+
+	@Test
+	public void shouldCatchOutOfMemoryError() {
+		try {
+			double[] megaArray = new double[Integer.MAX_VALUE];
+		} catch (java.lang.OutOfMemoryError e) {
+			System.err.println(e.getMessage());
+		}
+	}
 }

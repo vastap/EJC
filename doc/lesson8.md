@@ -106,3 +106,16 @@ public void shouldCompareStringAsCharIntValues(){
 
 Примерный список методов на картинке ниже:
 ![](../img/StringMethods.png)
+
+## StringBuilder и StringBuffer
+Строки являются immutable, т.е. неизменяемыми. Поэтому, нам в помощь даны 2 класса: StringBuilder и StringBuffer. Основное отличие между ними в том, что StringBuffer появился в JDK1.0, в то время как StringBuilder пришёл в java 1.5 как не синхронизированная версия StringBuffer, чтобы снять повышенные затраты на ненужную синхронизацию методов.
+Оба эти классы являются реализацией абстрактного класса **AbstractStringBuilder** - A mutable sequence of characters. Внутри хранится массив чаров, который расширяется по правилу: ```value.length * 2 + 2```.
+По умолчанию размер (capacity) у StringBuilder'а равен 16.
+
+## Дополнительно почитать
+Строго рекомендуется к прочтению:
+"[Обработка строк в Java. Часть I: String, StringBuffer, StringBuilder](https://habrahabr.ru/post/260767/)"
+Много полезного в комментариях. Например, указано, что при конкатенации вида ```new StringBuilder().append()...toString()``` действует **intrinsic** оптимизация, регулируемая опцией -XX:+OptimizeStringConcat, которая по умолчанию включена.
+
+intrinsic - переводится как "внутренний". Такие вещи JVM обрабатывает особенным образом, обрабатывая их как Native, только без дополнительных затрат на JNI.
+Подробнее: "[Intrinsic Methods in HotSpot VM](https://www.slideshare.net/RednaxelaFX/green-teajug-hotspotintrinsics02232013)".

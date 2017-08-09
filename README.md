@@ -41,4 +41,4 @@
 
 [Lesson 14 - Time Complexity](./doc/lesson14.md)
 
-Lesson 15 - Scopes, Inner classes, override
+[Lesson 15 - Scopes, Inner classes, override](./doc/lesson15.md)

@@ -43,7 +43,6 @@ public class App {
 		} while (!isSorted);
 	}
 
-
 	/**
 	 * Bubble sort with XOR swap
 	 *
