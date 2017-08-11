@@ -112,6 +112,22 @@ public void shouldCompareStringAsCharIntValues(){
 Оба эти классы являются реализацией абстрактного класса **AbstractStringBuilder** - A mutable sequence of characters. Внутри хранится массив чаров, который расширяется по правилу: ```value.length * 2 + 2```.
 По умолчанию размер (capacity) у StringBuilder'а равен 16.
 
+## toString
+Метод в String переопределён и возвращает ссылку на самого себя:
+```java
+    * This object (which is already a string!) is itself returned.
+    *
+    * @return  the string itself.
+    */
+public String toString() {
+	return this;
+}
+```
+
+## Concatenation
+Примеры объединения строк и производительность разобраны в статье:
+"[The Optimum Method to Concatenate Strings in Java](http://www.rationaljava.com/2015/02/the-optimum-method-to-concatenate.html?m=1)".
+
 ## Дополнительно почитать
 Строго рекомендуется к прочтению:
 "[Обработка строк в Java. Часть I: String, StringBuffer, StringBuilder](https://habrahabr.ru/post/260767/)"
