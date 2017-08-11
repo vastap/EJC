@@ -13,6 +13,8 @@
 ### Список лекций:
 [Lesson 00 - Prologue](./doc/lesson0.md)
 
+[Lesson 00 - JIT compiler](./doc/jit.md)
+
 [Lesson 01 - Basic concepts](./doc/lesson1.md)
 
 [Lesson 02 - Java memory Model](./doc/lesson2.md)

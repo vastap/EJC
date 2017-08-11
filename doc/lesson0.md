@@ -44,28 +44,3 @@
 ## Множественное наследование
 В Java отсутствует множественное наследование в явном виде. Существует только обязательное неявное наследование от Object + наследование, указанное ключевым словом Extends.
 Более подробно: "[Множественное наследование в Java. Композиция в сравнении с Наследованием](http://info.javarush.ru/translation/2013/10/22/Множественное-наследование-в-Java-Композиция-в-сравнении-с-Наследованием.html)"
-
-## Раннее и позднее связывание
-Существуют такие понятие, как ранние связывание и позднее связывание.
-Раннее связывание - выполняется на этапе компиляции (Compile time).
-Позднее связывание - выполняется в момент выполнения (Runtime).
-
-Подробнее: "[How the Java virtual machine handles method invocation and return](http://www.javaworld.com/article/2076949/learn-java/how-the-java-virtual-machine-handles-method-invocation-and-return.html)".
-```
-When the Java virtual machine invokes a class method, it selects the method to invoke based on the type of the object reference, which is always known at compile-time.
-
-On the other hand, when the virtual machine invokes an instance method, it selects the method to invoke based on the actual class of the object, which may only be known at run time.
-
-The JVM uses two different instructions, shown in the following table, to invoke these two different kinds of methods: invokevirtual for instance methods, and invokestatic for class methods.
-```
-Получается, что позднее связывание = метод объекта = invokevirtual
-Ранее связывание = метод класса = invokestatic
-Как написано на другом ресурса:
-```All non-final non-private, not-static methods in Java are virtual```
-и
-```
-The invokespecial instruction is used to invoke instance initialization methods as well as private methods and methods of a superclass of the current class.
-```
-на основе статьи "[Java Bytecode Fundamentals: Using Objects and Calling Methods](https://zeroturnaround.com/rebellabs/java-bytecode-fundamentals-using-objects-and-calling-methods/)".
-Таким образом, полиморфизм становится возможным благодаря механизму позднего связывания.
-Для использования динамического (позднего) связывания используется виртуальная таблица методов, своеобразная таблица-развязка. См. "[Virtual tables and abstract in Java](https://stackoverflow.com/questions/9554379/virtual-tables-and-abstract-in-java)"
