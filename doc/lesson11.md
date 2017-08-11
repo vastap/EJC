@@ -22,6 +22,37 @@ tasklist /fi "imagename eq java.exe"
 
 Более подробно: [Потоки в Java (java threads)](http://www.quizful.net/post/java-threads).
 
+## Главный поток
+У любой Java программы есть главный поток - это поток, в котором началось выполнение программы.
+При завершении данного потока завершаться все остальные потоки.
+Подробнее: "[Введение в потоки Java](http://alfalavista.ru/idxfldr/2013-06-18-22-25-47/363-potoki-java.html)".
+"[Main thread in Java](http://www.geeksforgeeks.org/main-thread-java/)"
+
+Согласно документации, у каждого потока есть свой "[Thread ID](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html#getId()".
+У Main потока ID будет равен единице. Таким образом его можно идентифицировать.
+
+Потоки объединяются в группы. main поток находится в main группе. Без особых указаний дочерние потоки будут созданы в ней же.
+Пример поиска главного потока из дочернего:
+```java
+Thread[] threads = new Thread[Thread.currentThread().getThreadGroup().activeCount()];
+Thread.currentThread().getThreadGroup().enumerate(threads);
+for (Thread thread : threads) {
+	if (thread.getId() == 1) {
+		System.out.println("Main thread name is " + thread.getName());
+		break;
+	}
+}
+```
+
+## Монитор
+В Java есть понятие "Монитор".
+Каждый объект в Java имеет монитор, ассоциированный с данным объектом/классом (в случае статики). Ссылка на этот монитор содержится в заголовке объекта.
+На эту тему хороший обзор:
+"[Monitors – The Basic Idea of Java Synchronization](http://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/)".
+А так же полезно почитать ответы на вопросы:
+"[Multithreading: часть 1](https://jsehelper.blogspot.ru/2016/01/multithreading-1.html)".
+"[Собеседование по Java — многопоточность (вопросы и ответы)](http://javastudy.ru/interview/concurrent/)"
+
 ## Жизненный цикл потока
 У каждого потока есть свой жизненный цикл:
 ![](../img/ThreadLifecycle.png)
