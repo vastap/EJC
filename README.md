@@ -44,3 +44,5 @@
 [Lesson 14 - Time Complexity](./doc/lesson14.md)
 
 [Lesson 15 - Scopes, Inner classes, override](./doc/lesson15.md)
+
+[Lesson 16 - Queue, Dequeue](./doc/lesson16.md)
