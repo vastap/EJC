@@ -167,4 +167,20 @@ public class AppTest {
 			System.err.println(e.getMessage());
 		}
 	}
+
+	@Test
+	public void shouldSortItemsInPriorityQueue(){
+		PriorityQueue queue = new PriorityQueue();
+		queue.offer(10);
+		queue.offer(1);
+		queue.offer(5);
+		assertEquals(1,queue.poll());
+
+		queue = new PriorityQueue(Collections.reverseOrder());
+		queue.offer(10);
+		queue.offer(1);
+		queue.offer(5);
+		assertEquals(10,queue.poll());
+	}
+
 }

@@ -50,9 +50,42 @@ A priority queue relying on natural ordering also does not permit insertion of n
 На вершине — минимальный элемент (согласно его компаратору).
 Добавление/удаление — это O(log N), получение элемента — O(1).
 
+Вычисление индекса родительского узла выполняется следующим образом:
+```
+0 - индекс root (1 элемент)
+1 - индекс элемента, дочернего от root (root+1)
+2 - индекс элемента, дочернего от root (root+2)
+3 - индекс элемента, дочернего от элемента 1
+4 - индекс элемента, дочернего от элемента 1
+Родитель текущего узла: (индекс элемента - 1) >>> 1
+Например: (4-1) >>> 1 = 1
+```
+Пример применения:
+```java
+@Test
+public void shouldSortItemsInPriorityQueue(){
+	PriorityQueue queue = new PriorityQueue();
+	queue.offer(10);
+	queue.offer(1);
+	queue.offer(5);
+	assertEquals(1,queue.poll());
+
+	queue = new PriorityQueue(Collections.reverseOrder());
+	queue.offer(10);
+	queue.offer(1);
+	queue.offer(5);
+	assertEquals(10,queue.poll());
+}
+```
+
 ## Двунаправленные очереди
 Двунаправленные очереди реализуют интерфейс **Deque**, который является наследником Queue.
 Позволяют работать с очередью с обеих сторон.
 Так же призван заменить собой старую реализацию синхронизированного **Stack**.
-
-Одной из реализаций является: ArrayDeque, LinkedList.
+![](../img/ArrayDeque.png)
+Примером реализаций является: ArrayDeque, LinkedList.
+ArrayDeque основан на массиве, а LinkedList основан на связанном списке.
+ArrayDeque быстрее LinkedList, о чём говорит даже Java API для класса ArrayDeque:
+```
+This class is likely to be faster than Stack when used as a stack, and faster than LinkedList when used as a queue.
+```

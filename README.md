@@ -46,3 +46,5 @@
 [Lesson 15 - Scopes, Inner classes, override](./doc/lesson15.md)
 
 [Lesson 16 - Queue, Dequeue](./doc/lesson16.md)
+
+[Lesson 17 - Lists](./doc/lesson17.md)
