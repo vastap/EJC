@@ -23,6 +23,7 @@
         <module>algorithms</module>
 		<module>threads</module>
         <module>experiments</module>
+        <module>threadpool</module>
     </modules>
 
     <dependencyManagement>
