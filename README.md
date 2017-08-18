@@ -48,3 +48,5 @@
 [Lesson 16 - Queue, Dequeue](./doc/lesson16.md)
 
 [Lesson 17 - Lists](./doc/lesson17.md)
+
+[Lesson 18 - Algorithms: Search](./doc/lesson18.md)
