@@ -50,3 +50,5 @@
 [Lesson 17 - Lists](./doc/lesson17.md)
 
 [Lesson 18 - Algorithms: Search](./doc/lesson18.md)
+
+[Lesson 19 - Static, Abstract & Interfaces](./doc/lesson19.md)
