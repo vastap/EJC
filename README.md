@@ -52,3 +52,5 @@
 [Lesson 18 - Algorithms: Search](./doc/lesson18.md)
 
 [Lesson 19 - Static, Abstract & Interfaces](./doc/lesson19.md)
+
+[Lesson 20 - java.util.Collections](./doc/lesson20.md)
