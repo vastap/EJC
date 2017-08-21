@@ -54,5 +54,111 @@ for (Thread thread : threads) {
 "[Собеседование по Java — многопоточность (вопросы и ответы)](http://javastudy.ru/interview/concurrent/)"
 
 ## Жизненный цикл потока
-У каждого потока есть свой жизненный цикл:
+Про жизненный цикл можно ознакомиться здесь: [Lifecycle and States of a Thread in Java](http://www.geeksforgeeks.org/lifecycle-and-states-of-a-thread-in-java/).
+
+Когда поток только создан (при помощи ```Thread thread = new Thread();```), то он имеет статус **NEW**. В таком положении он ещё не запущен и планировщик потоков ещё не знает ничего о новом потоке.
+
+Когда для потока вызывается ```thread.start()```, поток переходит в состояние **Rubbable**. Теперь планировщик потоков знает про поток и управляет временем выполнения потока. Java не отличает статус "готов к работе" и "работает (выполняется)".
+
+Когда поток жив, но не активен, он находится в одном из двух состояний:
+- **Blocked** - ожидает захода в защищённую (protected) секцию, т.е. в synchonized блок.
+- **Waiting** - ожидает другой поток по условие. Если условие выполняется - планировщик потоков запускает поток
+
+Если поток ожидает по времени, то он находится в статусе **Timed Waiting**.
+Если поток больше не выполняется (завершился успешно или с exception), то он переходит в статус **Terminated State**.
+
+С учётом выше указанного можно ознакомиться с графическим представлением жизненного цикла:
 ![](../img/ThreadLifecycle.png)
+Для того, чтобы узнать состояние поток (его state) используется метод **getState**.
+Метод **isAlive** возвращает true, если поток не Terminated.
+
+## IllegalMonitorStateException
+При некорректной работе с монитором возникает IllegalMonitorStateException.
+```java
+try {
+	wait(2000);
+} catch (InterruptedException e) {
+	e.printStackTrace();
+}
+```
+Данный код бросит исключение IllegalMonitorStateException.
+Чтобы понять, стоит отметить, что в данном случае ```wait``` равносиле ```this.wait(2000)```
+Чтобы исправить ситуацию, нужно получить синхронизацию по монитору this:
+```java
+synchronized (this) {
+	try {
+		this.wait(1000);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+}
+```
+Чтобы понять, что происходит, можно представить, что монитор - это комната, в которую есть некоторая очередь. Как к врачу. Метод **wait** говорит, что поток становится в очередь в эту комнату, пока его не пригласят. Метод **notify** равносилен тому, как загорается лампочка, которая приглашает следующий поток в комнату:
+```java
+final Object room = new Object();
+	new Thread(new Runnable() {
+		@Override
+		public void run() {
+			try {
+				sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			synchronized (room){
+				room.notify();
+			}
+		}
+	}).start();
+
+	synchronized (room) {
+		try {
+			room.wait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+```
+Про пример с комнатой спасибо "[Monitors – The Basic Idea of Java Synchronization](https://www.programcreek.com/2011/12/monitors-java-synchronization-mechanism/)".
+
+## Потоки демоны
+Поток может быть потоком демоном и не демоном.
+Чтобы узнать, является ли поток демоном необходимо у потока вызвать метод **isDaemon**.
+Чтобы поток стал демоном, необходимо это указать явно:
+```java
+Thread daemon = new Thread();
+daemon.setDaemon(true);
+daemon.start();
+```
+Важно, что после старта поток нельзя поменять этот статус, будет выброшен IllegalStateException.
+Так же важно, что потоки демоны не могут существовать без обычных потоков. Поэтому, потоки демоны могут быть прерваны в любой момент. Autocloseable ресурсам не будет вызван close. Поэтому, гарантировать правильное закрытие ресурсов нет возможности.
+Хотя ресурсы при завершении главного потока и завершения процесса JVM должны быть освобождены, такой гарантии не даётся. Подробнее: [Are resources used by a Java application freed when it terminates?](https://stackoverflow.com/questions/10906226/are-resources-used-by-a-java-application-freed-when-it-terminates).
+
+**Интересный факт:**
+Термин был придуман программистами проекта MAC Массачусетского технологического института, он отсылает к персонажу мысленного эксперимента, демону Максвелла, занимающегося сортировкой молекул в фоновом режиме.
+
+Демон также является персонажем греческой мифологии, выполняющим задачи, за которые не хотят браться боги. Как утверждается в «Справочнике системного администратора UNIX», в Древней Греции понятие «персональный даймон» было, отчасти, сопоставимо с современным понятием «ангел-хранитель».
+Источник: [Википедия](https://ru.wikipedia.org/wiki/Демон_(программа).
+
+Подробнее про потоки-демоны: [What is Daemon Thread in Java? ](http://crunchify.com/what-is-daemon-thread-in-java-example-attached/)
+
+## Метод join
+Для координации между потоками существует метод **join**
+Он позволяет потоку, из которого вызывается метод указать поток, заверешение выполнения которого необходимо ожидать.
+Подробнее: [Пример использования Java Thread Join()](https://javadevblog.com/primer-ispol-zovaniya-java-thread-join.html)
+
+## wait, notify
+Ранее при объяснении монитора было наглядно показано, что wait - ожидание монитора, notify - информирование о том, что в монитор можно заходить.
+notify может быть в двух вариантах: notify и notifyAll
+О различии: [Difference between notify and notifyAll in Java](http://www.java67.com/2013/03/difference-between-wait-vs-notify-vs-notifyAll-java-thread.html)
+[What are wait(), notify() and notifyAll() methods?](http://howtodoinjava.com/core-java/multi-threading/how-to-work-with-wait-notify-and-notifyall-in-java/)
+
+## Классы синхронизированных коллекций java.util.concurrent
+Для облегчения работы в многопоточной среде с коллекцями добавлены Concurrent Collections.
+Отличный обзор приведён тут: [Обзор java.util.concurrent.*](https://habrahabr.ru/company/luxoft/blog/157273/).
+И [Understanding Collections and Thread Safety in Java](http://www.codejava.net/java-core/collections/understanding-collections-and-thread-safety-in-java).
+Обзор по каждой коллекции: [Java Concurrent Collection Classes](http://javapapers.com/java/java-concurrent-collections/).
+
+## Дополнительно:
+[Java Callable. Краткое описание и пример использования](https://javadevblog.com/java-callable-kratkoe-opisanie-i-primer-ispol-zovaniya.html)
+
+[Синхронизаторы](https://habrahabr.ru/post/277669/).

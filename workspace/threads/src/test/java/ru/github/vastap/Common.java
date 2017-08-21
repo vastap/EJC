@@ -2,7 +2,9 @@ package ru.github.vastap;
 
 import org.junit.Test;
 
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Tests for common threads behavior
@@ -21,7 +23,7 @@ public class Common {
 				for (int i = 0; i < 10; i++) {
 					System.out.println(i);
 					try {
-						Thread.sleep(1000);
+						sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -72,4 +74,88 @@ public class Common {
 		}
 		System.out.println(Thread.currentThread().getName() + ": my name is " + Thread.currentThread().getName());
 	}
+
+	@Test
+	public void shouldChangeThreadState() {
+		final Thread mainThread = Thread.currentThread();
+		// The investigated thread
+		Thread thread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					sleep(3000);
+				} catch (InterruptedException e) {
+					System.out.println("Thread was interrupted");
+				}
+				// Should get thread monitor or get IllegalMonitorStateException
+				synchronized (mainThread) {
+					try {
+						mainThread.wait();
+					} catch (InterruptedException e) {
+						System.out.println("Thread was interrupted");
+					}
+				}
+			}
+		});
+
+		// Created New
+		assertEquals("NEW", thread.getState().toString());
+		// Started
+		thread.start();
+		assertEquals("RUNNABLE", thread.getState().toString());
+		// Timed Waiting
+		try {
+			sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertEquals("TIMED_WAITING", thread.getState().toString());
+		// Waiting
+		try {
+			sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertEquals("WAITING", thread.getState().toString());
+		// Terminated
+		thread.interrupt();
+		try {
+			sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		assertEquals("TERMINATED", thread.getState().toString());
+		assertFalse(thread.isAlive());
+	}
+
+	/**
+	 * Mutex for synchronization is like a room.
+	 * Test for demonstration of this statement.
+	 */
+	@Test
+	public void shouldUseSynchronizedOnMonitor() {
+		final Object room = new Object();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				synchronized (room) {
+					room.notify();
+				}
+			}
+		}).start();
+
+		synchronized (room) {
+			try {
+				room.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
