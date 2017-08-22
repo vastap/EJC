@@ -54,3 +54,5 @@
 [Lesson 19 - Static, Abstract & Interfaces](./doc/lesson19.md)
 
 [Lesson 20 - java.util.Collections](./doc/lesson20.md)
+
+[Lesson 21 - Exercises](./doc/lesson21.md)

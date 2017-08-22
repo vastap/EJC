@@ -24,6 +24,7 @@
 		<module>threads</module>
         <module>experiments</module>
         <module>threadpool</module>
+        <module>exercises</module>
     </modules>
 
     <dependencyManagement>
