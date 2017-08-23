@@ -23,3 +23,53 @@
 [ITVDN : Ханойская башня](https://www.youtube.com/watch?v=D1B_2iz8Oi4&app=desktop)
 
 Примеры решений: [Recursion.java](..\workspace\exercises\src\main\java\ru\github\vastap\Recursion.java)
+
+## Строки
+Задачи на строки описаны в статье "[Подборка полезных алгоритмов для собеседований: задачи на строки](https://tproger.ru/problems/string-algorithms/)".
+```java
+// Важно помнить, что String - обёртка над массивом char'ов
+String string = "String";
+```
+Учитывая это, нам помогут следующие методы у объектов типа String:
+Метод | Описание
+----- | --------
+toCharArray() 		| Получить массив чаров из строки
+charAt(int x) 		| Получить символ на позиции x (zero-based)
+length()      		| Получить длинну строки
+compareTo(another)  | Лексикографическое сравнение (если >0 - позже стоит в словаре, чем another)
+replace(с, на)		| Заменить один участок строки на другой
+String.valueOf		| Получить строковое представление (НЕ для массивов)
+substring(int from) | Возвращает подстроку от указанного индекса и до конца строки
+substring(int from, int to) | Возвращает подстроку между указанными индексами (не включая to)
+Полезно будет так же иметь пример substring из Javadoc метода:
+```
+"hamburger".substring(4, 8) returns "urge"
+"smiles".substring(1, 5) returns "mile"
+```
+
+Так как может потребоваться работать с массивом чаров, то стоит так же вспомнить методы Arrays (требуется импорт ```import java.util.Arrays;```:
+Метод | Описание
+----- | --------
+Arrays.fill(массив, значение) | Заполнить массив указанным значением
+Arrays.copyOf(массив, размер) | На основе указанного массива создать новый массив нужного размера
+System.arraycopy(src,srcPost,dest,destPos,length) | Скопировать содержимое одного массива в другой массив
+Arrays.copyOfRange(массив, from, to) | Создать массив из элементов [from, to], не включая индекс to
+Arrays.toString | Отобразить массив
+
+А так же пригодятся методы класса Character:
+Метод | Описание
+----- | --------
+Character.isLetter, Character.isDigit, Character.isLetterOrDigit | Проверка, является ли char буквой и/или цифрой
+Character.toLowerCase, isLowerCase(), Character.toUpperCase, isUpperCase() | Работа с регистром char
+
+Помимо задач из статьи "[Подборка полезных алгоритмов для собеседований: задачи на строки](https://tproger.ru/problems/string-algorithms/)" можно посмотреть следующее:
+
+Лекция про строки с задачами в формате pdf: "[Занятие №8. Символы и строки в Java](https://goo.gl/Xn741A)"
+
+## Дополнительно:
+Задачи на массивы: "[Занятие №9. Двумерные массивы](https://goo.gl/699jWJ)"
+
+## Сайты где можно решать задачи
+Список сайтов можно увидеть здесь:
+"[27 сайтов с задачками для оттачивания навыков программирования](https://proglib.io/p/27-puzzle-websites-to-sharpen-your-skills/)"
+
