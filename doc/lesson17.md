@@ -39,3 +39,45 @@ List — это упорядоченный список. Объекты хран
 
 Подробнее: "[Теория и практика Java : Параллельные классы коллекций](https://www.ibm.com/developerworks/ru/library/j-jtp07233/index.html)"
 И обзор "[Guide to CopyOnWriteArrayList](http://www.baeldung.com/java-copy-on-write-arraylist)"
+
+## Дополнительно
+**Перевод массива в список:**
+- Для массива объектов:
+```java
+Integer[] array = {1,3,5};
+List list = Arrays.asList(array);
+```
+- Для массива примитивов:
+Такая возможность появилась только в Java8 благодаря Stream API:
+```java
+int[] array = {1,3,5};
+List list = Arrays.stream(array).boxed().collect(Collectors.toList());
+```
+или
+```java
+int[] array = {1,3,5};
+List list = new ArrayList();
+Arrays.stream(array).forEach(e -> list.add(e));
+```
+
+**Из Collection в массив:**
+Наследники Collection имеют метод toArray, который позволяет коллекции превращать в массив:
+```java
+List<Integer> list = new ArrayList();
+for (int i = 0; i < 10; i++) {
+	list.add(i);
+}
+Object[] array = list.toArray();
+```
+или
+```java
+List<Integer> list = new ArrayList();
+for (int i = 0; i < 10; i++) {
+	list.add(i);
+}
+Integer[] array = new Integer[list.size()];
+list.toArray(array);
+```
+
+**Задачи на List и их решения**
+[15 задач на собеседовании для программиста](https://proglib.io/p/15-questions-for-programmers/)
