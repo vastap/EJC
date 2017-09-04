@@ -7,7 +7,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests on algorightms implementations
+ * Tests on algorithms implementations
  */
 public class AppTest {
 
@@ -34,6 +34,10 @@ public class AppTest {
 		int[] array = new int[]{5, 4, 3, 2, 1};
 		App.insertionSort(array);
 		assertEquals("[1, 2, 3, 4, 5]", Arrays.toString(array));
+
+		array = new int[]{1, 5, 4, 2};
+		App.insertionSort(array);
+		assertEquals("[1, 2, 4, 5]", Arrays.toString(array));
 	}
 
 	@Test
@@ -63,7 +67,6 @@ public class AppTest {
 		array = new int[]{6, 2, 6, 1, 6};
 		App.quickSort(array, 0, array.length - 1);
 		assertEquals("[1, 2, 6, 6, 6]", Arrays.toString(array));
-
 	}
 
 	@Test
@@ -107,4 +110,10 @@ public class AppTest {
 		assertEquals(-1, App.getIndexWithBinarySearch(array, 3));
 	}
 
+	@Test
+	public void shouldDoHeapSort() {
+		Heap heap = new Heap(new int[]{2, 4, 6, 8, 3, 1});
+		heap.sort();
+		assertEquals("[1, 2, 3, 4, 6, 8]", heap.toString());
+	}
 }

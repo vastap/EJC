@@ -15,7 +15,6 @@ public class App {
 	 * @param to    Second element to swap
 	 */
 	private static void xorSwap(int[] array, int from, int to) {
-		System.out.println("swap " + array[from] + " and " + array[to]);
 		array[from] = array[from] ^ array[to];
 		array[to] = array[from] ^ array[to];
 		array[from] = array[from] ^ array[to];

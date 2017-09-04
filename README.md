@@ -56,3 +56,5 @@
 [Lesson 20 - java.util.Collections](./doc/lesson20.md)
 
 [Lesson 21 - Exercises](./doc/lesson21.md)
+
+[Lesson 22 - Coding practice](./doc/lesson22.md)
