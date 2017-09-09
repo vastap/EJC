@@ -9,8 +9,9 @@
 -- [Insertion Sort](#insertion)
 -- [Heap Sort](#heap)
 -- [Merge Sort](#merge)
+- [Немного математрики](#math)
+- [Рекурсия](#recursion)
 - [Действия со строками](#strings)
-
 
 ## <a name="prepare"></a> Подготовка
 Иногда, полезно выйти из зоны комфорта и потренироваться вне IDE, которая подскажет, подставит что нужно и куда нужно, укажет ошибки. Для тренировки идеально подходит редактор [Sublime Text 3](https://www.sublimetext.com/3). Одновременно полезен и эстетичен.
@@ -80,7 +81,8 @@ private static void bubbleSort(int[] array) {
 }
 ```
 Так как цикл вставлен в цикл, мы можем утверждать, что временная сложность алгоритма является квадратичной, т.к. n раз проходимся по n элементам, то есть чем больше n, тем больше элементов мы проходим, тем большее количество итераций нам нужно.
-Сортировка пузырьком является устойчивой.
+**Устойчивость:** Да
+**Сложность:** O(n^2)
 
 ### <a name="shuttle"></a> **Shuttle Sort**
 Далее изменим алгоритм, сделав из пузырька челночную сортировку, она же **Shuttle Sort** (челнок - нечто/некто, кто/что перемещается туда и обратно. Например: торговцы, космические корабли, лодки и т.п.).
@@ -106,7 +108,8 @@ private static void shuttleSort(int[] array) {
 	}
 }
 ```
-Сложность по прежнему квадратичная, сортировка так же устойчивая.
+**Устойчивость:** Да
+**Сложность:** O(n^2)
 
 ### <a name="selection"></a> **Selection Sort**
 От данного алгоритма можно перейти от перебора к выбору, т.е. к сортировке выбором, **Selection Sort**. В отличии от прошлых сортировок, мы будем перемещаясь от элемента к элементу искать минимальный элемент среди элементов по одну сторону искать минимальный, а выбрав его перемещать его по другую. Таким образом мы будем постепенно уменьшать проверяемую область. Пример:
@@ -129,6 +132,8 @@ private static void selectionSort(int[] array) {
 }
 ```
 Сложность квадратичная, так как мы используем цикл в цикле. Сортировка является неустойчивой (например, "{2, 2, 1}").
+**Устойчивость:** Нет
+**Сложность:** O(n^2)
 
 ### <a name="insertion"></a> **Insertion Sort**
 Далее можем изменить алгоритм на сортировку вставками. От сортировки выбором отличается тем, что мы двигаемся от элемента к элемента и для каждого элемента выбираем место, куда его можно вставить, сдвигая остальные элементы.
@@ -149,7 +154,8 @@ private static void insertionSort(int[] array) {
 	}
 }
 ```
-Являестя устойчивой сортировкой. Сложность квадратичная.
+**Устойчивость:** Да
+**Сложность:** O(n^2)
 
 ### <a name="heap"></a> **Heap Sort**
 Чтобы было поинтереснее, можно вспомнить сортировку [кучей](https://habrahabr.ru/post/112222/). Но чтобы её понять, нужно понять само понятие кучи.
@@ -204,7 +210,8 @@ private void heapify(int index) {
 ```
 На самом деле, тут всё просто. Мы рассматриваем каждый элемент, который является вершиной для других элементов. Смотрим на дочерний элемент слева, смотрим на дочерний элемент справа. Находим из них элемент, который больше чем вершина. Если такой есть - меняем местами. Если обмен состоялся - выполняем те же действия для того элемента (т.е. того индекса), с которым мы произвели обмен.
 
-Теперь же сортировка становится простой. Всё что нам нужно - менять максимальный элемент с последним и восстанавливать кучу, как мы делали это раньше, но каждую итерацию уменьшать размер хипа. Для этого в heapify передавать нужно вместе с индексом и размер, который ранее мы высчитывали в heapSize:
+Теперь же сортировка становится простой. Всё что нам нужно - менять максимальный элемент с последним и восстанавливать кучу, как мы делали это раньше, но каждую итерацию уменьшать размер хипа.
+Для этого в heapify передавать нужно вместе с индексом и размер, который ранее мы высчитывали в heapSize:
 ```java
 public void sort() {
 	for (int i = this.array.length-1; i > 0; i--) {
@@ -230,10 +237,95 @@ heap.sort();
 heap.print();
 ```
 В итоге мы получим отсортированную последовательно: 1, 2, 3, 4, 6, 8
-Сортировка является неустойчивой. Её сложность: O(n log n)
+**Устойчивость:** Нет
+**Сложность:** O(n log n)
 
 ### <a name="merge"></a> **Merge Sort**
-https://examples.javacodegeeks.com/core-java/mergesort-algorithm-in-java-code-example/
+Merge Sort проще всего реализовать через рекурсию.
+Первая часть алгоритма - разбить исходный массив на две равные части и разбивать каждую из частей снова на две части, а те тоже на половины. И делать так до тех пор, пока каждая из частей не перестанет делиться:
+```java
+public static void mergeSort(int[] array, int left, int right) {
+    int middle = (left + right) / 2;
+	if (middle != 0 && right - left > 1) {
+		mergeSort(array, left, middle);
+		mergeSort(array, middle, right);
+	} else {
+		return;
+	}
+}
+```
+Вторая часть - собираем половинки воедино. Для этого можно использовать вспомогательный массив - буфер:
+``` int[] buffer = new int[right - left]; ```
+При этом сортируем значения. Если использовался массив-буфер, то нужно значения вернуть в основно массив. Поэтому, ниже добавим:
+```java
+int[] buffer = new int[right - left];
+int leftCursor = left;
+int rightCursor = middle;
+for (int i = 0; i < buffer.length; i++) {
+	if (leftCursor != middle && (rightCursor == right || array[leftCursor] < array[rightCursor])) {
+		buffer[i] = array[leftCursor];
+		leftCursor++;
+	} else {
+		buffer[i] = array[rightCursor];
+		rightCursor++;
+	}
+}
+System.arraycopy(buffer, 0, array, left, buffer.length);
+```
+**Устойчивость:** Да
+**Сложность:** O(n log n)
+Требуется O(n) дополнительной памяти.
+
+## <a name="math"></a> Немного математики
+- Определение количества разрядов:
+Материал: [Способы найти количество цифр в числе](https://habrahabr.ru/post/269237/)
+```java
+public static void main(String[] args) {
+	int number = 321;
+	int count = (number == 0) ? 1 : 0;
+    while (number != 0) {
+		count++;
+		number /= 10;
+	}
+	System.out.println(count);
+}
+```
+Есть более хитрый способ на основе вычисления десятичного логарифма:
+```java
+int number = 23;
+double logarithm = Math.log10(Math.abs(number) + 0.5);
+System.out.println("Number of digits: " + (int) Math.ceil(logarithm));
+```
+- Определение чётный/нечётный
+```java
+int number = 22;
+System.out.println("Is even: " + (number % 2 == 0));
+```
+или экзотический способ:
+```java
+System.out.println("Is even: " + ((a & 1) == 0));
+```
+- Является ли число степенью двойки
+```java
+int a = 32;
+System.out.println("Is power of two: " + (a > 0 && (a & (a - 1)) == 0) );
+```
+Обоснование: "[Задача № 39. Проверить, является ли натуральное число степенью двойки](http://el-prog.narod.ru/pascal39.html)".
+- Является ли число целым
+```java
+double d = 2.2;
+System.out.println("Is integer: " + (d % 1 == 0));
+```
+- Математические понятия
+-- [Вычисление НОД](https://habrahabr.ru/post/205106/)
+-- [Факториал](https://habrahabr.ru/post/255761/)
+-- [Фибоначчи](https://stepik.org/lesson/15831/step/1) и [Находим N’е число Фибоначчи](https://tproger.ru/problems/finding-fibonacci/)
+-- [Вычисление НОК](http://kesh.kz/blog/%D0%BD%D0%BE%D0%BA-%D0%B8-%D0%BD%D0%BE%D0%B4-lcm-%D0%B8-gcd-%D0%BD%D0%B0-java/)
+-- [Поиск простоых числе и решето Эратосфена](https://habrahabr.ru/post/133037/)
+-- [Вычисление мариц](http://mathprofi.ru/deistviya_s_matricami.html)
+
+## <a name="recursion"></a> Рекурсия
+[Рекурсия. Тренировочные задачи](https://habrahabr.ru/post/275813/)
 
 ## <a name="strings"></a> Действия со строками
 - Разворот текста справа налево
@@ -290,7 +382,8 @@ System.out.println(new String(string));
 ```
 
 ## Задачи на массив
-Змейка:
+- Змейка:
+
 ```java
 int rightBorder = size;
 int leftBorder = 0;
@@ -322,18 +415,23 @@ leftBorder++;
 }
 
 for (int y = 0; y < size; y++) {
-	for (int x = 0; x < size; x++){
+	for (int x = 0; x < size; x++) {
 		System.out.print(array[y][x]);
 		System.out.print("\t");
 	}
 	System.out.println();
 }
 ```
+- Другие задачи
+[Задачи на массивы](http://javazadachi.blogspot.ru/p/blog-page_5.html)
 
-Простейшие действия с числами:
-- Определить, четное ли число
-```java
-int number = 3;
-boolean isEven = (number % 2) == 0;
-System.out.println(isEven);
-```
+## Дополнительно
+- [Динамическое программирование. Классические задачи](https://habrahabr.ru/post/113108/)
+- [Coding Bat](http://codingbat.com/java)
+- [LeetCode](http://leetcode.com/)
+- [CodeWars](https://www.codewars.com)
+- [Project Euler](https://projecteuler.net/archives) : математические задачи
+- [Codingame](https://www.codingame.com/home) : в виде игры
+- [mindcipher](http://www.mindcipher.com/) : Занятные задачи на счёт и логику
+- [TProger:problems](https://tproger.ru/category/problems/) : Подборка задач от TProgers
+- [Popular Java Interview Programs With Solutions](http://javaconceptoftheday.com/java-interview-programs-with-solutions/)

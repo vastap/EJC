@@ -189,32 +189,33 @@ public class App {
 	/**
 	 * Implementation of Merge Sort
 	 *
-	 * @param source Source Array to sort
-	 * @param left   Start from this element
-	 * @param right  Finish at this element
+	 * @param array Source Array to sort
+	 * @param left  Start from this element
+	 * @param right Finish at this element
 	 * @return Sorted Array
 	 */
-	public static void mergeSort(int[] source, int left, int right) {
-		int delimiter = left + ((right - left) / 2) + 1;
-		// Recursive merge for parts bigger than 2 elements
-		if (delimiter > 0 && right > left + 1) {
-			mergeSort(source, left, delimiter - 1);
-			mergeSort(source, delimiter, right);
+	public static void mergeSort(int[] array, int left, int right) {
+		int middle = (left + right) / 2;
+		if (middle != 0 && right - left > 1) {
+			mergeSort(array, left, middle);
+			mergeSort(array, middle, right);
+		} else {
+			return;
 		}
 
-		// Compare and merge
-		int[] buffer = new int[right - left + 1];
-		int cursor = left;
+		int[] buffer = new int[right - left];
+		int leftCursor = left;
+		int rightCursor = middle;
 		for (int i = 0; i < buffer.length; i++) {
-			if (delimiter > right || source[cursor] < source[delimiter]) {
-				buffer[i] = source[cursor];
-				cursor++;
+			if (leftCursor != middle && (rightCursor == right || array[leftCursor] < array[rightCursor])) {
+				buffer[i] = array[leftCursor];
+				leftCursor++;
 			} else {
-				buffer[i] = source[delimiter];
-				delimiter++;
+				buffer[i] = array[rightCursor];
+				rightCursor++;
 			}
 		}
-		System.arraycopy(buffer, 0, source, left, buffer.length);
+		System.arraycopy(buffer, 0, array, left, buffer.length);
 	}
 
 	/**

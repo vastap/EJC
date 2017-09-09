@@ -72,19 +72,23 @@ public class AppTest {
 	@Test
 	public void shouldDoMergeSort() {
 		int[] array = new int[]{8, 4, 6, 2, 1, 7, 5, 3};
-		App.mergeSort(array, 0, array.length - 1);
+		App.mergeSort(array, 0, array.length);
 		assertEquals("[1, 2, 3, 4, 5, 6, 7, 8]", Arrays.toString(array));
 
+		array = new int[]{1, 5, 4, 2, 6, 8};
+		App.mergeSort(array, 0, array.length);
+		assertEquals("[1, 2, 4, 5, 6, 8]", Arrays.toString(array));
+
 		array = new int[]{1, 3, 2};
-		App.mergeSort(array, 0, array.length - 1);
+		App.mergeSort(array, 0, array.length);
 		assertEquals("[1, 2, 3]", Arrays.toString(array));
 
 		array = new int[]{3, 2, 3};
-		App.mergeSort(array, 0, array.length - 1);
+		App.mergeSort(array, 0, array.length);
 		assertEquals("[2, 3, 3]", Arrays.toString(array));
 
 		array = new int[]{1, 3, 3};
-		App.mergeSort(array, 0, array.length - 1);
+		App.mergeSort(array, 0, array.length);
 		assertEquals("[1, 3, 3]", Arrays.toString(array));
 	}
 
@@ -116,4 +120,5 @@ public class AppTest {
 		heap.sort();
 		assertEquals("[1, 2, 3, 4, 6, 8]", heap.toString());
 	}
+
 }
