@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertTrue;
  * Various Test cases for java language aspects
  */
 public class AppTest {
+	private static final String AVERAGE_MAP_KEY = "Stan";
 
 	/**
 	 * <p>Arrays are not immutable and are objects.
@@ -169,18 +171,65 @@ public class AppTest {
 	}
 
 	@Test
-	public void shouldSortItemsInPriorityQueue(){
+	public void shouldSortItemsInPriorityQueue() {
 		PriorityQueue queue = new PriorityQueue();
 		queue.offer(10);
 		queue.offer(1);
 		queue.offer(5);
-		assertEquals(1,queue.poll());
+		assertEquals(1, queue.poll());
 
 		queue = new PriorityQueue(Collections.reverseOrder());
 		queue.offer(10);
 		queue.offer(1);
 		queue.offer(5);
-		assertEquals(10,queue.poll());
+		assertEquals(10, queue.poll());
+	}
+
+	@Test
+	public void shouldGetAverageFromMapWithStream() {
+		Map<String, Integer> unsortedMap = getUnsortedMap();
+		List<Map.Entry> list = unsortedMap.entrySet().stream()
+				.sorted(Map.Entry.comparingByValue())
+				.collect(Collectors.toList());
+		Map.Entry averageEntry = list.get(list.size() / 2);
+		assertEquals(AVERAGE_MAP_KEY, averageEntry.getKey());
+	}
+
+	@Test
+	public void shouldGetAverageFromMapWithArray() {
+		Map<String, Integer> unsortedMap = getUnsortedMap();
+		Map.Entry<String, Integer>[] entries = new Map.Entry[unsortedMap.size()];
+		unsortedMap.entrySet().toArray(entries);
+		Arrays.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+				return Integer.compare(o1.getValue(), o2.getValue());
+			}
+		});
+		assertEquals(AVERAGE_MAP_KEY, entries[entries.length / 2].getKey());
+	}
+
+	@Test
+	public void shouldGetAverageFromMapWithSet() {
+		Map<String, Integer> unsortedMap = getUnsortedMap();
+		List<Map.Entry<String, Integer>> entries = new ArrayList(unsortedMap.entrySet());
+		Collections.sort(entries, new Comparator<Map.Entry<String, Integer>>() {
+			@Override
+			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+				return Integer.compare(o1.getValue(), o2.getValue());
+			}
+		});
+		assertEquals(AVERAGE_MAP_KEY, entries.get(entries.size() / 2).getKey());
+	}
+
+	private static Map<String, Integer> getUnsortedMap() {
+		Map<String, Integer> unsortedMap = new HashMap<>();
+		unsortedMap.put("Max", 10);
+		unsortedMap.put("John", 20);
+		unsortedMap.put("Mike", 5);
+		unsortedMap.put(AVERAGE_MAP_KEY, 15);
+		unsortedMap.put("Dan", 30);
+		return unsortedMap;
 	}
 
 }
