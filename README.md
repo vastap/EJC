@@ -58,3 +58,7 @@
 [Lesson 21 - Exercises](./doc/lesson21.md)
 
 [Lesson 22 - Coding practice](./doc/lesson22.md)
+
+[Lesson 23 - Date](./doc/lesson23.md)
+
+[Вопросы и ответы на различные темы](https://jsehelper.blogspot.ru/search/label/Interview)
